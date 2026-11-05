@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css">
+<link rel="icon" href="/media/logo.jpg">
+</head>
+<body>
+<div id="nav"></div>
+<div class="container" style="margin-top:20px">
+  <div class="layout">
+    <aside class="sidebar glass" id="sidebar">
+      <div class="sbal"><div style="font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#c9c0b4">Saldo Kamu</div><div class="n" data-saldo>Rp0</div><button class="btn btn-sm btn-yellow" style="margin-top:10px" onclick="location.href='/deposit'">+ Deposit</button></div>
+      <a class="slink active" href="/dashboard">🏠 Dashboard</a>
+      <a class="slink" href="/deposit">💰 Deposit</a>
+      <a class="slink" href="/nokos">⚡ Buy Nokos</a>
+      <a class="slink" href="/trx">🧾 Riwayat Transaksi</a>
+      <a class="slink" href="#" onclick="GA.logout();return false">🚪 Logout</a>
+    </aside>
+    <main>
+      <div class="grid grid-3" style="margin-bottom:20px">
+        <div class="glass stat"><div class="num" id="mSaldo">—</div><div class="lbl">Saldo</div></div>
+        <div class="glass stat s2"><div class="num" id="mOrder">—</div><div class="lbl">Order Sukses</div></div>
+        <div class="glass stat s3"><div class="num" id="mDeposit">—</div><div class="lbl">Total Deposit</div></div>
+      </div>
+
+      <div class="sec-head"><h2>⚡ Buy Nokos</h2><a class="btn btn-sm btn-yellow" href="/nokos">Lihat Semua →</a></div>
+      <div class="grid grid-3" id="quickBuy">
+        <div class="glass card srv"><h3>WhatsApp 🇮🇩</h3><p class="hint">Server tercepat, stok melimpah.</p><a class="btn btn-sm btn-blue" href="/nokos?service=wa&country=6">Beli Sekarang</a></div>
+        <div class="glass card srv"><h3>Telegram 🇮🇩</h3><p class="hint">Alternatif murah untuk akun baru.</p><a class="btn btn-sm btn-blue" href="/nokos?service=tg&country=6">Beli Sekarang</a></div>
+        <div class="glass card srv"><h3>Lainnya 100+</h3><p class="hint">20+ negara, pilih sendiri.</p><a class="btn btn-sm btn-yellow" href="/nokos">Jelajahi</a></div>
+      </div>
+
+      <div class="sec-head" style="margin-top:26px"><h2>📦 Orderan Aktif</h2></div>
+      <div class="glass card tbl-wrap">
+        <table class="tbl"><thead><tr><th>Order</th><th>Nomor</th><th>Status</th><th></th></tr></thead>
+        <tbody id="actBody"><tr><td colspan="4"><div class="skel"></div></td></tr></tbody></table>
+      </div>
+
+      <div class="sec-head" style="margin-top:26px"><h2>🏆 Leaderboard</h2><span class="sticker">Order Terbanyak</span></div>
+      <div class="glass card tbl-wrap">
+        <table class="tbl"><thead><tr><th>#</th><th>Nama</th><th>Total Order</th></tr></thead><tbody id="lbBody"></tbody></table>
+      </div>
+    </main>
+  </div>
+</div>
+<div id="foot"></div>
+<script src="/assets/app.js"></script>
+<script>
+(async () => {
+  await GA.loadConfig();
+  document.getElementById("nav").innerHTML = GA.nav("dash", true);
+  document.getElementById("foot").innerHTML = GA.footer();
+  if (!GA.getToken()) { location.href = "/"; return; }
+  await GA.refreshSaldo();
+  mSaldo.textContent = GA.rp(GA.getUser()?.saldo || 0);
+  const [T, S] = await Promise.all([GA.api("/api/trx"), GA.api("/api/stats")]);
+  const tx = T.data || [];
+  mOrder.textContent = tx.filter(t => t.tipe === "ORDER" && t.status === "COMPLETED").length;
+  mDeposit.textContent = GA.rp(tx.filter(t => t.tipe === "SALDO_MASUK").reduce((a, b) => a + (b.nominal || 0), 0));
+  actBody.innerHTML = tx.filter(t => t.tipe === "ORDER" && ["WAIT_CODE", "ACTIVE", "RESEND"].includes(t.status)).slice(0, 8)
+    .map(t => `<tr><td>${t.orderId}</td><td class="phone-num" style="font-size:16px">+${t.nomor}</td><td>${GA.statusPill(t.status)}</td><td><a class="btn btn-sm" href="/nokos?order=${t.orderId}">Cek OTP</a></td></tr>`).join("")
+    || `<tr><td colspan="4">Tidak ada orderan aktif — <a href="/nokos" style="font-weight:800">beli nokos</a> yuk.</td></tr>`;
+  if (S.success) lbBody.innerHTML = S.data.leaderboard.map((r, i) => `<tr><td>${["🥇","🥈","🥉"][i] || "#"+(i+1)}</td><td>${r.nama}</td><td><b>${r.total}x</b></td></tr>`).join("") || `<tr><td colspan="3">Belum ada.</td></tr>`;
+})();
+</script>
+</body>
+</html>

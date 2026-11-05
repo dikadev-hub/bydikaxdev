@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dokumentasi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css">
+<link rel="icon" href="/media/logo.jpg">
+</head>
+<body>
+<div id="nav"></div>
+<div class="container" style="margin-top:20px;max-width:900px">
+  <div class="sec-head"><h2>📖 Cara Pakai <span data-cfg="nama">DikaOTP</span></h2><span class="sticker">Pemula Friendly</span></div>
+
+  <div class="glass card" style="margin-bottom:16px">
+    <h3>1️⃣ Daftar & Login</h3>
+    <p style="margin-top:6px">Klik <b>Masuk / Daftar</b> di kanan atas, buat akun dengan email & password. Gratis, tanpa syarat ribet.</p>
+  </div>
+  <div class="glass card" style="margin-bottom:16px">
+    <h3>2️⃣ Deposit Saldo</h3>
+    <p style="margin-top:6px">Buka menu <b>Deposit</b>, pilih nominal, buat QRIS, scan pakai aplikasi bank/e-wallet apa pun. Saldo masuk <b>otomatis</b> beberapa detik setelah bayar.</p>
+  </div>
+  <div class="glass card" style="margin-bottom:16px">
+    <h3>3️⃣ Beli Nokos</h3>
+    <p style="margin-top:6px">Buka <b>Buy Nokos</b> → pilih negara → pilih layanan (WhatsApp, Telegram, dll) → pilih server sesuai harga & stok → beli. Nomor langsung muncul, OTP dipantau realtime.</p>
+    <p class="hint" style="margin-top:8px">Mau borong? Pilih jumlah 2–5 nomor sekaligus (bulk).</p>
+  </div>
+  <div class="glass card" style="margin-bottom:16px">
+    <h3>4️⃣ Terima & Salin OTP</h3>
+    <p style="margin-top:6px">Klik <b>🔍 Cek OTP</b> pada order aktif. Kode muncul otomatis saat SMS masuk (cek tiap 5 detik). Ada tombol resend & cancel — batal = saldo kembali penuh.</p>
+  </div>
+
+  <div class="glass card" style="margin-bottom:16px;background:#fff3cd">
+    <h3>⚠️ Aturan Main</h3>
+    <ul style="margin:8px 0 0 20px;line-height:1.8">
+      <li>Nomor hanya untuk verifikasi akun milik sendiri — <b>dilarang</b> dipakai penipuan, spam, atau aktivitas ilegal.</li>
+      <li>Order OTP sukses <b>tidak bisa di-refund</b> (kecuali order dibatalkan sebelum OTP masuk).</li>
+      <li>Stok & harga berubah realtime mengikuti provider — harga final tampil sebelum kamu bayar.</li>
+    </ul>
+  </div>
+
+  <div class="glass card" style="margin-bottom:30px">
+    <h3>❓ FAQ</h3>
+    <p style="margin-top:8px"><b>OTP tidak masuk?</b> Tunggu 1–2 menit, coba tombol Kirim Ulang. Kalau tetap kosong sampai waktu habis, batalkan order — saldo kembali 100%.</p>
+    <p style="margin-top:8px"><b>Deposit belum masuk?</b> Pastikan QR sudah terbayar, tunggu maksimal ±30 detik (auto-cek tiap 5 detik), atau tekan tombol 🔍 Cek di daftar deposit.</p>
+    <p style="margin-top:8px"><b>Kenapa harga beda dengan server lain?</b> Tiap server punya harga, stok, dan tingkat keberhasilan OTP sendiri — pilih sesuai kebutuhan.</p>
+  </div>
+</div>
+<div id="foot"></div>
+<script src="/assets/app.js"></script>
+<script>GA.loadConfig().then(() => { nav.innerHTML = GA.nav("docs"); foot.innerHTML = GA.footer(); });</script>
+</body>
+</html>

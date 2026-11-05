@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Riwayat Transaksi</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css">
+<link rel="icon" href="/media/logo.jpg">
+</head>
+<body>
+<div id="nav"></div>
+<div class="container" style="margin-top:20px">
+  <div class="layout">
+    <aside class="sidebar glass" id="sidebar">
+      <div class="sbal"><div style="font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#c9c0b4">Saldo Kamu</div><div class="n" data-saldo>Rp0</div></div>
+      <a class="slink" href="/dashboard">🏠 Dashboard</a>
+      <a class="slink" href="/deposit">💰 Deposit</a>
+      <a class="slink" href="/nokos">⚡ Buy Nokos</a>
+      <a class="slink active" href="/trx">🧾 Riwayat Transaksi</a>
+      <a class="slink" href="#" onclick="GA.logout();return false">🚪 Logout</a>
+    </aside>
+    <main>
+      <div class="sec-head">
+        <h2>🧾 Riwayat Transaksi</h2>
+        <div style="display:flex;gap:8px;flex-wrap:wrap">
+          <button class="btn btn-sm active" data-f="ALL" onclick="setF('ALL')">Semua</button>
+          <button class="btn btn-sm" data-f="ORDER" onclick="setF('ORDER')">Order</button>
+          <button class="btn btn-sm" data-f="DEPOSIT" onclick="setF('DEPOSIT')">Deposit</button>
+        </div>
+      </div>
+      <div class="glass card tbl-wrap">
+        <table class="tbl"><thead><tr><th>Waktu</th><th>Tipe</th><th>Detail</th><th>Nominal</th><th>Status</th></tr></thead>
+        <tbody id="trxBody"><tr><td colspan="5"><div class="skel"></div></td></tr></tbody></table>
+      </div>
+    </main>
+  </div>
+</div>
+<div id="foot"></div>
+<script src="/assets/app.js"></script>
+<script>
+let ALL = [], FILT = "ALL";
+async function init() {
+  await GA.loadConfig();
+  nav.innerHTML = GA.nav("trx", true);
+  foot.innerHTML = GA.footer();
+  if (!GA.getToken()) { location.href = "/"; return; }
+  await GA.refreshSaldo();
+  const j = await GA.api("/api/trx");
+  ALL = j.data || [];
+  render();
+}
+function setF(f) { FILT = f; document.querySelectorAll("[data-f]").forEach(b => b.classList.toggle("btn-yellow", b.dataset.f === f)); render(); }
+function detail(t) {
+  if (t.tipe === "ORDER") return `${t.layanan || ""} ${t.negara ? "· " + t.negara : ""}<br><span class="hint">+${t.nomor || ""} · ${t.orderId || ""}</span>`;
+  if (t.tipe === "DEPOSIT") return `QRIS ${t.depositId || ""}`;
+  if (t.tipe === "REFUND") return `Refund order ${t.orderId || ""}`;
+  if (t.tipe === "SALDO_MASUK") return `Deposit ${t.depositId || ""} diterima`;
+  return t.tipe;
+}
+function render() {
+  const rows = ALL.filter(t => FILT === "ALL" || t.tipe === FILT);
+  trxBody.innerHTML = rows.map(t => `<tr>
+    <td style="font-size:13px;white-space:nowrap">${(t.waktu || "").slice(0, 16).replace("T", " ")}</td>
+    <td>${GA.statusPill(t.tipe)}</td>
+    <td>${detail(t)}</td>
+    <td><b>${GA.rp(t.nominal || 0)}</b></td>
+    <td>${GA.statusPill(t.status)}</td>
+  </tr>`).join("") || `<tr><td colspan="5">Belum ada transaksi.</td></tr>`;
+}
+init();
+</script>
+</body>
+</html>

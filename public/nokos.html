@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Buy Nokos</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css">
+<link rel="icon" href="/media/logo.jpg">
+</head>
+<body>
+<div id="nav"></div>
+<div class="container" style="margin-top:20px">
+  <div class="layout">
+    <aside class="sidebar glass" id="sidebar">
+      <div class="sbal"><div style="font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#c9c0b4">Saldo Kamu</div><div class="n" data-saldo>Rp0</div><button class="btn btn-sm btn-yellow" style="margin-top:10px" onclick="location.href='/deposit'">+ Deposit</button></div>
+      <a class="slink" href="/dashboard">🏠 Dashboard</a>
+      <a class="slink" href="/deposit">💰 Deposit</a>
+      <a class="slink active" href="/nokos">⚡ Buy Nokos</a>
+      <a class="slink" href="/trx">🧾 Riwayat Transaksi</a>
+      <a class="slink" href="#" onclick="GA.logout();return false">🚪 Logout</a>
+    </aside>
+    <main>
+      <div class="sec-head"><h2>⚡ Buy Nokos</h2><span class="pill yellow" id="liveTag">CEK LIVE</span></div>
+
+      <div class="grid grid-3" style="margin-bottom:18px">
+        <div class="glass card"><div class="field"><label>🌍 Negara</label><select id="fCountry"><option value="">Memuat…</option></select></div></div>
+        <div class="glass card"><div class="field"><label>🧩 Layanan</label><select id="fService"><option value="">Pilih negara dulu</option></select></div></div>
+        <div class="glass card"><div class="field"><label>🔢 Jumlah (bulk)</label><select id="fTotal"><option value="1">1 nomor</option><option value="2">2 nomor</option><option value="3">3 nomor</option><option value="5">5 nomor</option></select></div></div>
+      </div>
+
+      <div class="sec-head"><h2>🖥️ Pilih Server</h2><button class="btn btn-sm" onclick="loadServers()">↻ Refresh</button></div>
+      <div class="grid grid-3" id="srvList"><div class="glass card skel"></div><div class="glass card skel"></div><div class="glass card skel"></div></div>
+
+      <div class="sec-head" style="margin-top:26px"><h2>📦 Orderan Aktif</h2><button class="btn btn-sm" onclick="loadActive()">↻ Cek Status</button></div>
+      <div class="glass card tbl-wrap">
+        <table class="tbl"><thead><tr><th>Order</th><th>Nomor</th><th>Status</th><th>OTP</th><th></th></tr></thead>
+        <tbody id="actBody"><tr><td colspan="5">Belum ada order aktif.</td></tr></tbody></table>
+      </div>
+    </main>
+  </div>
+</div>
+
+<!-- modal order aktif -->
+<div class="modal-back" id="omodal">
+  <div class="modal glass card" style="text-align:center">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px"><h3 id="omTitle">Order</h3><button class="btn btn-sm" onclick="closeO()">✕</button></div>
+    <div id="omBody"></div>
+  </div>
+</div>
+
+<div id="foot"></div>
+<script src="/assets/app.js"></script>
+<script>
+const P = new URLSearchParams(location.search);
+let CUR = { countries: [], services: [] };
+
+async function init() {
+  await GA.loadConfig();
+  nav.innerHTML = GA.nav("nok", true);
+  foot.innerHTML = GA.footer();
+  if (!GA.getToken()) { GA.openAuth(); }
+  await GA.refreshSaldo();
+  const j = await GA.api("/api/nokos/countries");
+  if (!j.success) { fCountry.innerHTML = `<option value="">Gagal memuat (${j.error?.message || "?"})</option>`; return; }
+  CUR.countries = j.data || [];
+  fCountry.innerHTML = `<option value="">— Pilih Negara —</option>` + CUR.countries.map(c => `<option value="${c.id}" ${String(c.id) === P.get("country") ? "selected" : ""}>${c.name}</option>`).join("");
+  if (P.get("country")) fCountry.dispatchEvent(new Event("change"));
+}
+async function loadServices() {
+  const c = fCountry.value; if (!c) return;
+  fService.innerHTML = `<option value="">Memuat…</option>`;
+  const j = await GA.api("/api/nokos/services?country=" + c);
+  CUR.services = j.data || [];
+  const want = P.get("service");
+  fService.innerHTML = `<option value="">— Pilih Layanan —</option>` + CUR.services.map(s => `<option value="${s.code}" ${s.code === want ? "selected" : ""}>${s.name}</option>`).join("");
+  if (want) { loadServers(); P.delete("service"); }
+  else fService.value = "";
+}
+async function loadServers() {
+  const c = fCountry.value, s = fService.value;
+  srvList.innerHTML = `<div class="glass card skel"></div>`.repeat(3);
+  if (!c || !s) { srvList.innerHTML = `<div class="glass card"><p class="hint">Pilih negara &amp; layanan dulu di atas.</p></div>`; return; }
+  const j = await GA.api(`/api/nokos/harga?service=${s}&country=${c}`);
+  if (!j.status) { srvList.innerHTML = `<div class="glass card"><p class="hint">❌ ${(j.error && j.error.message) || "Gagal memuat harga"}</p></div>`; return; }
+  srvList.innerHTML = j.server.map(v => `
+    <div class="glass card srv">
+      <div class="top"><h3>${v.label}</h3><span class="pill ${v.stok > 500 ? "green" : "yellow"}">stok ${v.stok}</span></div>
+      <div class="price">${GA.rp(v.harga)}</div>
+      <div class="meta"><span class="pill">OTP ${v.tingkat_otp != null ? v.tingkat_otp + "%" : "N/A"}</span></div>
+      <button class="btn btn-yellow full" onclick="buy('${s}','${c}','${v.id}',${v.harga})">Beli Sekarang</button>
+    </div>`).join("") || `<div class="glass card"><p class="hint">Tidak ada server tersedia.</p></div>`;
+}
+async function buy(s, c, pid, price) {
+  const n = parseInt(fTotal.value) || 1;
+  if (!GA.getToken()) { GA.toast("Login dulu ya!", "err"); return GA.openAuth(); }
+  if (!confirm(`Beli ${n} nomor (${s}) — total sekitar ${GA.rp(price * n)}?\n\nSaldo akan dipotong otomatis.`)) return;
+  const url = n > 1 ? `/api/nokos/buy-bulk?service=${s}&country=${c}&provider_id=${pid}&total=${n}` : `/api/nokos/buy?service=${s}&country=${c}&provider_id=${pid}&expected_price=${price}`;
+  GA.toast("Memproses order…");
+  const j = await GA.api(url);
+  if (!j.success) return GA.toast((j.error && j.error.message) || j.message || "Order gagal", "err");
+  if (n > 1) {
+    const d = j.data || {}; const ok = d.totalSuccess || (d.orders || []).length;
+    GA.toast(`Sukses ${ok}/${d.totalRequested || n} nomor! Cek daftar order aktif di bawah 👇`, "ok");
+  } else {
+    GA.toast("Order sukses! Menunggu OTP…", "ok");
+  }
+  GA.refreshSaldo(); loadActive(); loadServers();
+}
+async function loadActive() {
+  const j = await GA.api("/api/orders/active");
+  const rows = (j.data || []);
+  actBody.innerHTML = rows.map(t => `<tr>
+    <td style="font-size:13px">${t.orderId}</td>
+    <td class="phone-num" style="font-size:16px">+${t.nomor}</td>
+    <td>${GA.statusPill(t.status)}</td><td>—</td>
+    <td><button class="btn btn-sm btn-blue" onclick="openOrder('${t.orderId}')">🔍 Cek OTP</button></td>
+  </tr>`).join("") || `<tr><td colspan="5">Belum ada order aktif.</td></tr>`;
+}
+let pollTm = null;
+function openOrder(id) {
+  omodal.classList.add("show");
+  omTitle.textContent = id;
+  omBody.innerHTML = `<div class="skel"></div>`;
+  pollStatus(id, true);
+}
+function closeO() { omodal.classList.remove("show"); clearTimeout(pollTm); }
+async function pollStatus(id, first) {
+  const j = await GA.api("/api/nokos/status/" + id);
+  if (!j.success) { omBody.innerHTML = `<p class="hint">❌ ${(j.error && j.error.message) || "Gagal cek status"}</p>`; return; }
+  const d = j.data || {};
+  if (d.status === "COMPLETED") {
+    omBody.innerHTML = `
+      <p class="hint">Nomor</p><div class="phone-num" style="margin-bottom:12px">+${d.sms && d.sms.match(/\d{6,}/) ? "" : ""}${d.phone || ""}</div>
+      <p class="hint">Kode OTP kamu:</p><div class="otp-code">${d.otp_code || d.sms || "-"}</div>
+      <p class="hint" style="margin-top:12px">✅ Sukses! Salin kode di atas untuk verifikasi.</p>
+      <button class="btn btn-green full" style="margin-top:14px" onclick="copyTxt('${d.otp_code || ""}')">📋 Salin OTP</button>`;
+    GA.refreshSaldo(); loadActive();
+    return;
+  }
+  omBody.innerHTML = `
+    <span class="pill blue">${d.status || "WAIT_CODE"}</span>
+    <p class="hint" style="margin:14px 0">⏳ ${d.status === "RESEND" ? "Menunggu SMS kedua…" : "Menunggu OTP masuk. Halaman ini auto-refresh tiap 5 detik."}</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+      <button class="btn btn-sm" onclick="doResend('${id}')">🔁 Kirim Ulang</button>
+      <button class="btn btn-sm btn-pink" onclick="doCancel('${id}')">❌ Batalkan</button>
+    </div>`;
+  clearTimeout(pollTm); pollTm = setTimeout(() => { if (omodal.classList.contains("show")) pollStatus(id); }, 5000);
+}
+function copyTxt(t) { navigator.clipboard.writeText(t); GA.toast("Tersalin! 📋", "ok"); }
+async function doResend(id) { const j = await GA.api("/api/nokos/resend/" + id); GA.toast(j.message || (j.success ? "Resend dikirim" : "Gagal"), j.success ? "ok" : "err"); if (j.success) pollStatus(id); }
+async function doCancel(id) {
+  if (!confirm("Batalkan order ini? Saldo akan dikembalikan otomatis.")) return;
+  const j = await GA.api("/api/nokos/cancel/" + id);
+  GA.toast(j.message || (j.success ? "Dibatalkan" : "Gagal"), j.success ? "ok" : "err");
+  if (j.success) { closeO(); GA.refreshSaldo(); loadActive(); }
+}
+fCountry.addEventListener("change", loadServices);
+fService.addEventListener("change", loadServers);
+omodal.addEventListener("click", e => { if (e.target === omodal) closeO(); });
+init(); loadActive();
+</script>
+</body>
+</html>

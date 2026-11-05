@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DikaOTP — Nokos Murah</title>
+<meta name="description" content="Website nokos murah, aman, dan terpercaya. Nomor OTP WhatsApp & 100+ layanan, proses instan, bayar QRIS.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css">
+<link rel="icon" href="/media/logo.jpg">
+</head>
+<body>
+<div id="nav"></div>
+
+<header class="hero container">
+  <img class="brand-logo logo-big" src="/media/logo.jpg" alt="Logo">
+  <h1>Nokos <span class="hl">murah, aman</span> &amp; terpercaya<br>hanya di <span class="hl" data-cfg="nama">DikaOTP</span></h1>
+  <p class="lead" data-cfg="desk"></p>
+  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+    <a class="btn btn-yellow" href="/nokos">⚡ Buy Nokos Sekarang</a>
+    <a class="btn" href="/docs">📖 Cara Pakai</a>
+  </div>
+</header>
+
+<section class="container">
+  <div class="grid grid-3">
+    <div class="glass stat"><div class="num" id="stUser">—</div><div class="lbl">Total User</div></div>
+    <div class="glass stat s2"><div class="num" id="stOrder">—</div><div class="lbl">Total Order</div></div>
+    <div class="glass stat s3"><div class="num" id="stOtp">—</div><div class="lbl">OTP Sukses</div></div>
+  </div>
+</section>
+
+<section class="container" style="text-align:center;padding-top:10px">
+  <div class="sticker b">Mulai <span data-cfg="minprice">5k</span>-an aja 💸</div>
+  <p style="margin-top:14px;color:#6b6259;font-weight:700">Harga sudah termasuk layanan instan 24 jam. Saldo masuk otomatis setelah QRIS dibayar.</p>
+</section>
+
+<section class="container">
+  <div class="sec-head"><h2>Kenapa <span data-cfg="nama">DikaOTP</span>?</h2><span class="sticker g">100% Auto</span></div>
+  <div class="grid grid-3">
+    <div class="glass card srv"><h3>⚡ Instan</h3><p>Nomor langsung aktif setelah checkout. OTP masuk dalam hitungan detik, pantau realtime.</p></div>
+    <div class="glass card srv"><h3>🛡️ Aman</h3><p>Saldo tersimpan rapi, pembatalan order otomatis refund ke saldo kamu. Tanpa drama.</p></div>
+    <div class="glass card srv"><h3>🌏 Lengkap</h3><p>20+ negara, 100+ layanan — WhatsApp, Telegram, dan lainnya. Harga transparan per server.</p></div>
+  </div>
+</section>
+
+<section class="container">
+  <div class="sec-head"><h2>🏆 Leaderboard Order</h2><span class="sticker">Top Relawan OTP</span></div>
+  <div class="glass card tbl-wrap">
+    <table class="tbl"><thead><tr><th>#</th><th>Nama</th><th>Total Order</th></tr></thead>
+    <tbody id="lbBody"><tr><td colspan="3"><div class="skel"></div></td></tr></tbody></table>
+  </div>
+</section>
+
+<section class="container" style="padding-bottom:60px">
+  <div class="glass card" style="text-align:center;padding:40px 22px;background:var(--ink);color:#fff;box-shadow:8px 8px 0 var(--acc)">
+    <h2 style="color:#fff">Gas daftar & beli nokos pertama lu 🚀</h2>
+    <p style="margin:10px 0 20px;color:#c9c0b4">Gratis bikin akun, deposit mulai 1.000-an.</p>
+    <button class="btn btn-yellow" onclick="GA.openAuth()">Daftar Sekarang</button>
+  </div>
+</section>
+
+<div id="foot"></div>
+<script src="/assets/app.js"></script>
+<script>
+(async () => {
+  await GA.loadConfig();
+  document.getElementById("nav").innerHTML = GA.nav("home");
+  document.getElementById("foot").innerHTML = GA.footer();
+  const j = await GA.api("/api/stats");
+  if (j.success) {
+    stUser.textContent = j.data.totalUser; stOrder.textContent = j.data.totalOrder; stOtp.textContent = j.data.otpSukses;
+    lbBody.innerHTML = j.data.leaderboard.length
+      ? j.data.leaderboard.map((r, i) => `<tr><td>${["🥇","🥈","🥉"][i] || "#" + (i + 1)}</td><td>${r.nama}</td><td><b>${r.total}x</b></td></tr>`).join("")
+      : `<tr><td colspan="3">Belum ada order — jadi yang pertama!</td></tr>`;
+  }
+})();
+</script>
+</body>
+</html>

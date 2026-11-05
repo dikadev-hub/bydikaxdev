@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Deposit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/style.css">
+<link rel="icon" href="/media/logo.jpg">
+</head>
+<body>
+<div id="nav"></div>
+<div class="container" style="margin-top:20px">
+  <div class="layout">
+    <aside class="sidebar glass" id="sidebar">
+      <div class="sbal"><div style="font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#c9c0b4">Saldo Kamu</div><div class="n" data-saldo>Rp0</div></div>
+      <a class="slink" href="/dashboard">🏠 Dashboard</a>
+      <a class="slink active" href="/deposit">💰 Deposit</a>
+      <a class="slink" href="/nokos">⚡ Buy Nokos</a>
+      <a class="slink" href="/trx">🧾 Riwayat Transaksi</a>
+      <a class="slink" href="#" onclick="GA.logout();return false">🚪 Logout</a>
+    </aside>
+    <main>
+      <div class="sec-head"><h2>💰 Deposit QRIS</h2><span class="sticker g">Auto Masuk</span></div>
+      <div class="grid grid-2">
+        <div class="glass card">
+          <div class="field"><label>Nominal Deposit</label><input id="dAmount" type="number" min="1000" step="500" value="5000" placeholder="min 1.000"></div>
+          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px" id="dQuick"></div>
+          <div class="hint" id="dFee" style="margin-bottom:14px"></div>
+          <button class="btn btn-yellow full" id="dBtn">🔌 Buat QRIS</button>
+          <p class="hint" style="margin-top:10px">QRIS aktif selama beberapa menit. Saldo masuk <b>otomatis</b> setelah pembayaran terdeteksi (cek tiap 5 detik).</p>
+        </div>
+        <div class="glass card" style="text-align:center" id="dPanel">
+          <h3 style="margin-bottom:10px">QR Pembayaran</h3>
+          <p class="hint">Isi nominal lalu tekan <b>Buat QRIS</b>.<br>QR akan muncul di sini.</p>
+        </div>
+      </div>
+
+      <div class="sec-head" style="margin-top:26px"><h2>🧾 Deposit Kamu</h2></div>
+      <div class="glass card tbl-wrap">
+        <table class="tbl"><thead><tr><th>ID</th><th>Nominal</th><th>Bayar</th><th>Status</th><th></th></tr></thead>
+        <tbody id="depBody"><tr><td colspan="5">—</td></tr></tbody></table>
+      </div>
+    </main>
+  </div>
+</div>
+<div id="foot"></div>
+<script src="/assets/app.js"></script>
+<script>
+let pollTm = null, CURDEP = null;
+async function init() {
+  await GA.loadConfig();
+  nav.innerHTML = GA.nav("dep", true);
+  foot.innerHTML = GA.footer();
+  if (!GA.getToken()) { location.href = "/"; return; }
+  await GA.refreshSaldo();
+  const quick = [2000, 5000, 10000, 20000, 50000, 100000];
+  dQuick.innerHTML = quick.map(v => `<button class="btn btn-sm" onclick="setAmt(${v})">${GA.rp(v)}</button>`).join("");
+  updFee(); loadDeps();
+}
+function setAmt(v) { dAmount.value = v; updFee(); }
+function updFee() {
+  const a = parseInt(dAmount.value) || 0;
+  const fee = Math.round(a * (GA.CFG.feeDepositPersen || 20) / 100);
+  dFee.innerHTML = a ? `Total dibayar: <b>${GA.rp(a + fee)}</b> (nominal ${GA.rp(a)} + fee ${GA.rp(fee)})` : "Masukkan nominal deposit.";
+}
+async function createDep() {
+  const a = parseInt(dAmount.value);
+  if (!a || a < 1000) return GA.toast("Minimal deposit 1.000", "err");
+  dBtn.disabled = true; GA.toast("Membuat QRIS…");
+  const j = await GA.api("/api/deposit/create?amount=" + a);
+  dBtn.disabled = false;
+  if (!j.success) return GA.toast((j.error && j.error.message) || j.message || "Gagal buat QRIS", "err");
+  CURDEP = j.data;
+  dPanel.innerHTML = `
+    <h3>Scan QRIS 📱</h3>
+    <img src="${j.data.qr_image}" alt="QRIS" style="width:100%;max-width:280px;border:3px solid var(--ink);border-radius:14px;margin:12px auto;box-shadow:var(--shadow-sm)">
+    <div class="hint">Deposit: <b>${GA.rp(j.data.amount_received)}</b> · Bayar: <b>${GA.rp(j.data.total_pay)}</b></div>
+    <div style="margin-top:12px"><span class="pill yellow" id="depStatus">MENUNGGU PEMBAYARAN</span></div>
+    <div class="hint" id="depCount" style="margin-top:8px"></div>
+    <button class="btn btn-sm btn-pink" style="margin-top:12px" onclick="cancelDep()">❌ Batalkan Deposit</button>`;
+  GA.toast("QRIS dibuat! Scan & bayar ya 📲", "ok");
+  pollDep(j.data.deposit_id);
+  loadDeps();
+}
+async function pollDep(id) {
+  clearTimeout(pollTm);
+  const j = await GA.api("/api/deposit/check/" + id);
+  const st = j.success && j.data ? j.data.status : null;
+  const el = document.getElementById("depStatus");
+  if (st === "success") {
+    if (el) el.outerHTML = `<span class="pill green">✅ DIBAYAR — SALDO MASUK</span>`;
+    GA.toast("Deposit masuk! Saldo bertambah 🎉", "ok");
+    GA.refreshSaldo(); loadDeps();
+    return;
+  }
+  if (st === "canceled") { if (el) el.outerHTML = `<span class="pill red">DIBATALKAN</span>`; return; }
+  if (el && j.success && j.data) {
+    const exp = j.data.expired_at;
+    const left = Math.max(0, Math.floor((exp - Date.now()) / 1000));
+    document.getElementById("depCount").textContent = `Kadaluarsa dalam ${Math.floor(left / 60)}m ${left % 60}s`;
+  }
+  pollTm = setTimeout(() => pollDep(id), 5000);
+}
+async function cancelDep() {
+  if (!CURDEP || !confirm("Batalkan deposit ini?")) return;
+  clearTimeout(pollTm);
+  const j = await GA.api("/api/deposit/cancel/" + CURDEP.deposit_id);
+  GA.toast(j.message || "Dibatalkan", j.success ? "ok" : "err");
+  dPanel.innerHTML = `<h3 style="margin-bottom:10px">QR Pembayaran</h3><p class="hint">Deposit dibatalkan. Buat QR baru kapan aja.</p>`;
+  loadDeps();
+}
+async function loadDeps() {
+  const j = await GA.api("/api/trx");
+  const deps = (j.data || []).filter(t => t.tipe === "DEPOSIT").slice(0, 20);
+  depBody.innerHTML = deps.map(t => `<tr>
+    <td style="font-size:13px">${t.depositId}</td><td><b>${GA.rp(t.nominal)}</b></td><td>${GA.rp(t.bayar || t.nominal)}</td>
+    <td>${GA.statusPill(t.status)}</td>
+    <td>${t.status === "PENDING" ? `<button class="btn btn-sm" onclick="checkOne('${t.depositId}')">🔍 Cek</button>` : ""}</td>
+  </tr>`).join("") || `<tr><td colspan="5">Belum ada deposit.</td></tr>`;
+}
+async function checkOne(id) {
+  GA.toast("Cek pembayaran…");
+  const j = await GA.api("/api/deposit/check/" + id);
+  const st = j.success && j.data ? j.data.status : null;
+  if (st === "success") { GA.toast("Deposit masuk! 🎉", "ok"); GA.refreshSaldo(); }
+  else if (st === "canceled") GA.toast("Deposit dibatalkan", "err");
+  else GA.toast("Belum dibayar nih", "");
+  loadDeps();
+}
+dAmount.addEventListener("input", updFee);
+dBtn.addEventListener("click", createDep);
+init();
+</script>
+</body>
+</html>

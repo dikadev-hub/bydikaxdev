@@ -1,0 +1,36 @@
+credit.txt — BYDIKAXDEV
+========================
+
+Created & Developed By : Dika X Dev
+Role                   : Project Creator & Lead Developer
+Year                   : 2026
+
+----------------------------------------
+LISENSI & KETENTUAN
+----------------------------------------
+Script website ini GRATIS dan OPEN SOURCE (lisensi MIT).
+TIDAK DIJUAL BELIKAN. Kalau lu dibayar untuk script ini, lu kena tipu —
+ambil gratis dari repository resmi.
+
+Lu bebas:
+- Pakai, modifikasi, dan deploy untuk keperluan pribadi maupun bisnis.
+- Modifikasi tema, config, dan fitur selama header credit tetap ada.
+
+Lu tidak boleh:
+- Menjual ulang script ini secara langsung.
+- Menghapus atau menyembunyikan credit developer.
+
+----------------------------------------
+TEKNOLOGI
+----------------------------------------
+- Backend  : Node.js + Express (proxy ke RuangOTP API)
+- Database : JSON flat-file (database/user.json, database/trx.json)
+- Frontend : Vanilla HTML/CSS/JS — neobrutalism x glassmorphism x smooth comic
+- Pembayaran: QRIS otomatis via provider API
+- Font     : Baloo 2 & Nunito (Google Fonts, SIL OFL)
+
+----------------------------------------
+KONTAK
+----------------------------------------
+GitHub: https://github.com/dikadev-hub
+Dibuat dengan 🧡 oleh Dika X Dev

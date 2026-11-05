@@ -1,0 +1,16 @@
+{
+  "name": "bydikaxdev",
+  "version": "1.0.0",
+  "description": "Platform jual nokos / OTP number murah, aman & terpercaya — by Dika X Dev",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["nokos", "otp", "ruangotp", "qris", "bydikaxdev"],
+  "author": "Dika X Dev",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^5.3.0"
+  }
+}
