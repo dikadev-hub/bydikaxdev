@@ -3,52 +3,780 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard</title>
+<title>Dashboard — DikaOTP</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <link rel="stylesheet" href="/assets/style.css">
 <link rel="icon" href="/media/logo.jpg">
+<style>
+  :root {
+    --bg-main: #f7f5f0;
+    --ink: #101010;
+    --acc: #B7FF32;
+    --mint: #39E66B;
+    --card-light: #ffffff;
+    --muted-txt: #5c564f;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Nunito', sans-serif;
+    background-color: var(--bg-main);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  .container {
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 20px;
+    border-radius: 13px;
+    border: 2.5px solid var(--ink);
+    background: #fff;
+    color: var(--ink);
+    font-weight: 800;
+    font-size: 0.92rem;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 4px 4px 0 var(--ink);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  }
+
+  .btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--ink);
+  }
+
+  .btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+
+  .btn-sm {
+    padding: 8px 14px;
+    font-size: 0.82rem;
+    border-radius: 10px;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+
+  .btn-yellow {
+    background: var(--acc);
+    color: var(--ink);
+  }
+
+  .btn-blue {
+    background: var(--mint);
+    color: var(--ink);
+  }
+
+  .btn-dark {
+    background: var(--ink);
+    color: var(--acc);
+    border-color: var(--ink);
+  }
+
+  .sticker {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 2px solid var(--ink);
+    background: #fff;
+    font-weight: 800;
+    font-size: 0.8rem;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+
+  .sticker.g {
+    background: var(--acc);
+  }
+
+  .sticker.b {
+    background: var(--mint);
+  }
+
+  .glass {
+    background: var(--card-light);
+    border: 2.5px solid var(--ink);
+    border-radius: 20px;
+    box-shadow: 6px 6px 0 var(--ink);
+  }
+
+  .dash-wrapper {
+    margin-top: 26px;
+    margin-bottom: 64px;
+  }
+
+  .layout {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    gap: 26px;
+    align-items: start;
+  }
+
+  .sidebar {
+    padding: 18px;
+    position: sticky;
+    top: 20px;
+    background: #ffffff;
+  }
+
+  .sbal {
+    background: var(--ink);
+    color: #fff;
+    padding: 20px 18px;
+    border-radius: 16px;
+    border: 2px solid var(--ink);
+    box-shadow: 4px 4px 0 var(--acc);
+    margin-bottom: 18px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .sbal-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: #c9c0b4;
+    font-weight: 800;
+    margin-bottom: 6px;
+  }
+
+  .sbal .n {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.85rem;
+    font-weight: 800;
+    color: var(--acc);
+    line-height: 1.15;
+    margin-bottom: 14px;
+    word-break: break-word;
+  }
+
+  .sbal-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .sbal-actions .btn {
+    width: 100%;
+    padding: 8px 10px;
+    font-size: 0.78rem;
+    box-shadow: none;
+    border: 1.5px solid var(--ink);
+  }
+
+  .snav-title {
+    font-size: 0.72rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    color: var(--muted-txt);
+    margin: 10px 8px 8px;
+  }
+
+  .snav-list {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .slink {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 11px 14px;
+    border-radius: 12px;
+    color: var(--ink);
+    font-weight: 800;
+    font-size: 0.92rem;
+    text-decoration: none;
+    border: 2px solid transparent;
+    transition: all 0.15s ease;
+  }
+
+  .slink i {
+    width: 22px;
+    text-align: center;
+    font-size: 1rem;
+  }
+
+  .slink:hover {
+    background: rgba(183, 255, 50, 0.2);
+    border-color: var(--ink);
+  }
+
+  .slink.active {
+    background: var(--acc);
+    color: var(--ink);
+    border-color: var(--ink);
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+
+  .slink.logout-link {
+    margin-top: 6px;
+    color: #c92a2a;
+  }
+
+  .slink.logout-link:hover {
+    background: #ffe3e3;
+    border-color: #c92a2a;
+  }
+
+  .welcome-banner {
+    background: var(--ink);
+    color: #fff;
+    border: 2.5px solid var(--ink);
+    border-radius: 20px;
+    padding: 22px 26px;
+    margin-bottom: 22px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 16px;
+    box-shadow: 6px 6px 0 var(--acc);
+  }
+
+  .welcome-left h1 {
+    font-family: 'Baloo 2', cursive;
+    font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+    margin: 0 0 4px;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .welcome-left p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #c9c0b4;
+    font-weight: 600;
+  }
+
+  .welcome-right {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 28px;
+  }
+
+  .stat-card {
+    padding: 20px 18px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition: transform 0.2s ease;
+  }
+
+  .stat-card:hover {
+    transform: translateY(-3px);
+  }
+
+  .stat-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 14px;
+    background: var(--acc);
+    border: 2px solid var(--ink);
+    box-shadow: 3px 3px 0 var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    color: var(--ink);
+    flex-shrink: 0;
+  }
+
+  .stat-card.s2 .stat-icon {
+    background: var(--mint);
+  }
+
+  .stat-card.s3 .stat-icon {
+    background: var(--ink);
+    color: var(--acc);
+  }
+
+  .stat-card .num {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.55rem;
+    font-weight: 800;
+    line-height: 1.15;
+    word-break: break-word;
+  }
+
+  .stat-card .lbl {
+    font-size: 0.84rem;
+    font-weight: 700;
+    color: var(--muted-txt);
+  }
+
+  .sec-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 16px;
+  }
+
+  .sec-head h2 {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.38rem;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 9px;
+  }
+
+  .sec-head h2 i {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: var(--acc);
+    border: 2px solid var(--ink);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.95rem;
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+
+  .quick-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 30px;
+  }
+
+  .srv-card {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 16px;
+    transition: transform 0.2s ease;
+  }
+
+  .srv-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .srv-top {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .srv-icon {
+    width: 46px;
+    height: 46px;
+    border-radius: 13px;
+    background: var(--acc);
+    border: 2px solid var(--ink);
+    box-shadow: 3px 3px 0 var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.35rem;
+    color: var(--ink);
+    flex-shrink: 0;
+  }
+
+  .srv-card.tg .srv-icon {
+    background: var(--mint);
+  }
+
+  .srv-card.all .srv-icon {
+    background: var(--ink);
+    color: var(--acc);
+  }
+
+  .country-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 4px 9px;
+    border-radius: 99px;
+    background: #f1ede4;
+    border: 1.5px solid var(--ink);
+  }
+
+  .srv-card h3 {
+    margin: 12px 0 6px;
+    font-size: 1.15rem;
+    font-weight: 800;
+  }
+
+  .srv-card .hint {
+    margin: 0;
+    font-size: 0.86rem;
+    color: var(--muted-txt);
+    font-weight: 600;
+    line-height: 1.5;
+  }
+
+  .srv-card .btn {
+    width: 100%;
+  }
+
+  .tbl-wrap {
+    padding: 8px 16px;
+    overflow-x: auto;
+    margin-bottom: 30px;
+  }
+
+  .tbl {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+    min-width: 520px;
+  }
+
+  .tbl th, .tbl td {
+    padding: 13px 12px;
+    border-bottom: 1.5px solid #e6e0d6;
+    font-size: 0.9rem;
+    vertical-align: middle;
+  }
+
+  .tbl th {
+    font-weight: 800;
+    color: var(--muted-txt);
+    text-transform: uppercase;
+    font-size: 0.75rem;
+    letter-spacing: 0.05em;
+  }
+
+  .tbl tr:last-child td {
+    border-bottom: none;
+  }
+
+  .phone-num {
+    font-family: monospace;
+    font-weight: 800;
+    font-size: 0.98rem;
+    color: var(--ink);
+    background: #f3f0e8;
+    padding: 4px 10px;
+    border-radius: 8px;
+    border: 1.5px solid var(--ink);
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .order-id-badge {
+    font-family: monospace;
+    font-weight: 800;
+    font-size: 0.82rem;
+    color: var(--muted-txt);
+  }
+
+  .rank-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 8px;
+    border: 1.5px solid var(--ink);
+    background: #fff;
+    font-size: 0.82rem;
+  }
+
+  .rank-1 { background: #ffe066; }
+  .rank-2 { background: #e9ecef; }
+  .rank-3 { background: #ffc078; }
+
+  .empty-state {
+    text-align: center;
+    padding: 28px 16px;
+    font-weight: 700;
+    color: var(--muted-txt);
+  }
+
+  .empty-state i {
+    font-size: 1.6rem;
+    color: var(--ink);
+    margin-bottom: 8px;
+    display: block;
+  }
+
+  @media (max-width: 960px) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+
+    .sidebar {
+      position: static;
+    }
+
+    .snav-list {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(145px, 1fr));
+      gap: 8px;
+    }
+
+    .slink.logout-link {
+      margin-top: 0;
+    }
+
+    .stats-grid, .quick-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .dash-wrapper {
+      margin-top: 16px;
+    }
+
+    .welcome-banner {
+      padding: 18px;
+      text-align: left;
+    }
+
+    .welcome-right {
+      width: 100%;
+    }
+
+    .welcome-right .btn {
+      flex: 1;
+    }
+
+    .stats-grid, .quick-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .snav-list {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .slink {
+      padding: 10px 12px;
+      font-size: 0.84rem;
+    }
+
+    .tbl {
+      min-width: 440px;
+    }
+  }
+</style>
 </head>
 <body>
 <div id="nav"></div>
-<div class="container" style="margin-top:20px">
+
+<div class="container dash-wrapper">
   <div class="layout">
     <aside class="sidebar glass" id="sidebar">
-      <div class="sbal"><div style="font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:#c9c0b4">Saldo Kamu</div><div class="n" data-saldo>Rp0</div><button class="btn btn-sm btn-yellow" style="margin-top:10px" onclick="location.href='/deposit'">+ Deposit</button></div>
-      <a class="slink active" href="/dashboard">🏠 Dashboard</a>
-      <a class="slink" href="/deposit">💰 Deposit</a>
-      <a class="slink" href="/nokos">⚡ Buy Nokos</a>
-      <a class="slink" href="/trx">🧾 Riwayat Transaksi</a>
-      <a class="slink" href="#" onclick="GA.logout();return false">🚪 Logout</a>
+      <div class="sbal">
+        <div class="sbal-top">
+          <span><i class="fa-solid fa-wallet"></i> Saldo Akun</span>
+          <i class="fa-solid fa-shield-halved" style="color:var(--mint)"></i>
+        </div>
+        <div class="n" data-saldo>Rp0</div>
+        <div class="sbal-actions">
+          <button class="btn btn-sm btn-yellow" onclick="location.href='/deposit'">
+            <i class="fa-solid fa-plus"></i> Deposit
+          </button>
+          <button class="btn btn-sm" onclick="location.href='/nokos'">
+            <i class="fa-solid fa-bolt"></i> Order
+          </button>
+        </div>
+      </div>
+
+      <div class="snav-title">Menu Utama</div>
+      <nav class="snav-list">
+        <a class="slink active" href="/dashboard">
+          <i class="fa-solid fa-gauge-high"></i>
+          <span>Dashboard</span>
+        </a>
+        <a class="slink" href="/deposit">
+          <i class="fa-solid fa-money-bill-transfer"></i>
+          <span>Deposit Saldo</span>
+        </a>
+        <a class="slink" href="/nokos">
+          <i class="fa-solid fa-sim-card"></i>
+          <span>Beli Nokos</span>
+        </a>
+        <a class="slink" href="/trx">
+          <i class="fa-solid fa-receipt"></i>
+          <span>Riwayat Transaksi</span>
+        </a>
+        <a class="slink logout-link" href="#" onclick="GA.logout();return false">
+          <i class="fa-solid fa-right-from-bracket"></i>
+          <span>Keluar Akun</span>
+        </a>
+      </nav>
     </aside>
+
     <main>
-      <div class="grid grid-3" style="margin-bottom:20px">
-        <div class="glass stat"><div class="num" id="mSaldo">—</div><div class="lbl">Saldo</div></div>
-        <div class="glass stat s2"><div class="num" id="mOrder">—</div><div class="lbl">Order Sukses</div></div>
-        <div class="glass stat s3"><div class="num" id="mDeposit">—</div><div class="lbl">Total Deposit</div></div>
+      <div class="welcome-banner">
+        <div class="welcome-left">
+          <h1>
+            <i class="fa-solid fa-hand-sparkles" style="color:var(--acc)"></i>
+            <span>Selamat Datang, <span id="uName">Member</span>!</span>
+          </h1>
+          <p>Pantau pesanan nomor virtual, cek kode masuk OTP, dan kelola saldo kamu secara realtime.</p>
+        </div>
+        <div class="welcome-right">
+          <a class="btn btn-sm btn-yellow" href="/nokos">
+            <i class="fa-solid fa-cart-plus"></i> Order Baru
+          </a>
+          <a class="btn btn-sm" href="/docs">
+            <i class="fa-solid fa-circle-question"></i> Bantuan
+          </a>
+        </div>
       </div>
 
-      <div class="sec-head"><h2>⚡ Buy Nokos</h2><a class="btn btn-sm btn-yellow" href="/nokos">Lihat Semua →</a></div>
-      <div class="grid grid-3" id="quickBuy">
-        <div class="glass card srv"><h3>WhatsApp 🇮🇩</h3><p class="hint">Server tercepat, stok melimpah.</p><a class="btn btn-sm btn-blue" href="/nokos?service=wa&country=6">Beli Sekarang</a></div>
-        <div class="glass card srv"><h3>Telegram 🇮🇩</h3><p class="hint">Alternatif murah untuk akun baru.</p><a class="btn btn-sm btn-blue" href="/nokos?service=tg&country=6">Beli Sekarang</a></div>
-        <div class="glass card srv"><h3>Lainnya 100+</h3><p class="hint">20+ negara, pilih sendiri.</p><a class="btn btn-sm btn-yellow" href="/nokos">Jelajahi</a></div>
+      <div class="stats-grid">
+        <div class="glass stat stat-card">
+          <div class="stat-icon"><i class="fa-solid fa-coins"></i></div>
+          <div>
+            <div class="num" id="mSaldo">—</div>
+            <div class="lbl">Saldo Tersedia</div>
+          </div>
+        </div>
+        <div class="glass stat s2 stat-card">
+          <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
+          <div>
+            <div class="num" id="mOrder">—</div>
+            <div class="lbl">Order Sukses</div>
+          </div>
+        </div>
+        <div class="glass stat s3 stat-card">
+          <div class="stat-icon"><i class="fa-solid fa-vault"></i></div>
+          <div>
+            <div class="num" id="mDeposit">—</div>
+            <div class="lbl">Total Deposit</div>
+          </div>
+        </div>
       </div>
 
-      <div class="sec-head" style="margin-top:26px"><h2>📦 Orderan Aktif</h2></div>
+      <div class="sec-head">
+        <h2><i class="fa-solid fa-bolt"></i> Beli Cepat Nokos</h2>
+        <a class="btn btn-sm btn-yellow" href="/nokos">
+          <span>Lihat Semua Layanan</span>
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </div>
+
+      <div class="quick-grid" id="quickBuy">
+        <div class="glass card srv srv-card">
+          <div>
+            <div class="srv-top">
+              <div class="srv-icon"><i class="fa-brands fa-whatsapp"></i></div>
+              <span class="country-tag"><i class="fa-solid fa-flag"></i> Indonesia (+62)</span>
+            </div>
+            <h3>WhatsApp</h3>
+            <p class="hint">Server prioritas tercepat, stok nomor melimpah &amp; garansi OTP masuk.</p>
+          </div>
+          <a class="btn btn-sm btn-blue" href="/nokos?service=wa&country=6">
+            <i class="fa-solid fa-cart-shopping"></i> Beli Sekarang
+          </a>
+        </div>
+
+        <div class="glass card srv srv-card tg">
+          <div>
+            <div class="srv-top">
+              <div class="srv-icon"><i class="fa-brands fa-telegram"></i></div>
+              <span class="country-tag"><i class="fa-solid fa-flag"></i> Indonesia (+62)</span>
+            </div>
+            <h3>Telegram</h3>
+            <p class="hint">Alternatif hemat dan stabil untuk verifikasi akun Telegram baru.</p>
+          </div>
+          <a class="btn btn-sm btn-blue" href="/nokos?service=tg&country=6">
+            <i class="fa-solid fa-cart-shopping"></i> Beli Sekarang
+          </a>
+        </div>
+
+        <div class="glass card srv srv-card all">
+          <div>
+            <div class="srv-top">
+              <div class="srv-icon"><i class="fa-solid fa-layer-group"></i></div>
+              <span class="country-tag"><i class="fa-solid fa-earth-asia"></i> 20+ Negara</span>
+            </div>
+            <h3>100+ Layanan Lain</h3>
+            <p class="hint">Google, TikTok, Shopee, Instagram, Discord, dan pilih operator bebas.</p>
+          </div>
+          <a class="btn btn-sm btn-yellow" href="/nokos">
+            <i class="fa-solid fa-compass"></i> Jelajahi Katalog
+          </a>
+        </div>
+      </div>
+
+      <div class="sec-head">
+        <h2><i class="fa-solid fa-satellite-dish"></i> Orderan Aktif</h2>
+        <span class="sticker b"><i class="fa-solid fa-rotate"></i> Pantau OTP Realtime</span>
+      </div>
       <div class="glass card tbl-wrap">
-        <table class="tbl"><thead><tr><th>Order</th><th>Nomor</th><th>Status</th><th></th></tr></thead>
-        <tbody id="actBody"><tr><td colspan="4"><div class="skel"></div></td></tr></tbody></table>
+        <table class="tbl">
+          <thead>
+            <tr>
+              <th><i class="fa-solid fa-hashtag"></i> ID Order</th>
+              <th><i class="fa-solid fa-phone"></i> Nomor Virtual</th>
+              <th><i class="fa-solid fa-signal"></i> Status</th>
+              <th style="text-align:right"><i class="fa-solid fa-sliders"></i> Aksi</th>
+            </tr>
+          </thead>
+          <tbody id="actBody">
+            <tr><td colspan="4"><div class="skel">Memuat orderan aktif...</div></td></tr>
+          </tbody>
+        </table>
       </div>
 
-      <div class="sec-head" style="margin-top:26px"><h2>🏆 Leaderboard</h2><span class="sticker">Order Terbanyak</span></div>
-      <div class="glass card tbl-wrap">
-        <table class="tbl"><thead><tr><th>#</th><th>Nama</th><th>Total Order</th></tr></thead><tbody id="lbBody"></tbody></table>
+      <div class="sec-head">
+        <h2><i class="fa-solid fa-trophy"></i> Leaderboard Sultan</h2>
+        <span class="sticker g"><i class="fa-solid fa-crown"></i> Order Terbanyak</span>
+      </div>
+      <div class="glass card tbl-wrap" style="margin-bottom:0">
+        <table class="tbl">
+          <thead>
+            <tr>
+              <th><i class="fa-solid fa-ranking-star"></i> Peringkat</th>
+              <th><i class="fa-solid fa-user"></i> Nama Pengguna</th>
+              <th><i class="fa-solid fa-bag-shopping"></i> Total Order</th>
+            </tr>
+          </thead>
+          <tbody id="lbBody">
+            <tr><td colspan="3"><div class="skel">Memuat leaderboard...</div></td></tr>
+          </tbody>
+        </table>
       </div>
     </main>
   </div>
 </div>
+
 <div id="foot"></div>
+
 <script src="/assets/app.js"></script>
 <script>
 (async () => {
@@ -57,15 +785,57 @@
   document.getElementById("foot").innerHTML = GA.footer();
   if (!GA.getToken()) { location.href = "/"; return; }
   await GA.refreshSaldo();
-  mSaldo.textContent = GA.rp(GA.getUser()?.saldo || 0);
+
+  const currentUser = GA.getUser();
+  if (currentUser && currentUser.nama) {
+    document.getElementById("uName").textContent = currentUser.nama;
+  }
+  mSaldo.textContent = GA.rp(currentUser?.saldo || 0);
+
   const [T, S] = await Promise.all([GA.api("/api/trx"), GA.api("/api/stats")]);
   const tx = T.data || [];
+
   mOrder.textContent = tx.filter(t => t.tipe === "ORDER" && t.status === "COMPLETED").length;
   mDeposit.textContent = GA.rp(tx.filter(t => t.tipe === "SALDO_MASUK").reduce((a, b) => a + (b.nominal || 0), 0));
-  actBody.innerHTML = tx.filter(t => t.tipe === "ORDER" && ["WAIT_CODE", "ACTIVE", "RESEND"].includes(t.status)).slice(0, 8)
-    .map(t => `<tr><td>${t.orderId}</td><td class="phone-num" style="font-size:16px">+${t.nomor}</td><td>${GA.statusPill(t.status)}</td><td><a class="btn btn-sm" href="/nokos?order=${t.orderId}">Cek OTP</a></td></tr>`).join("")
-    || `<tr><td colspan="4">Tidak ada orderan aktif — <a href="/nokos" style="font-weight:800">beli nokos</a> yuk.</td></tr>`;
-  if (S.success) lbBody.innerHTML = S.data.leaderboard.map((r, i) => `<tr><td>${["🥇","🥈","🥉"][i] || "#"+(i+1)}</td><td>${r.nama}</td><td><b>${r.total}x</b></td></tr>`).join("") || `<tr><td colspan="3">Belum ada.</td></tr>`;
+
+  const activeOrders = tx.filter(t => t.tipe === "ORDER" && ["WAIT_CODE", "ACTIVE", "RESEND"].includes(t.status)).slice(0, 8);
+  actBody.innerHTML = activeOrders.length
+    ? activeOrders.map(t => `
+        <tr>
+          <td><span class="order-id-badge">#${t.orderId}</span></td>
+          <td><span class="phone-num"><i class="fa-solid fa-sim-card"></i> +${t.nomor}</span></td>
+          <td>${GA.statusPill(t.status)}</td>
+          <td style="text-align:right">
+            <a class="btn btn-sm btn-yellow" href="/nokos?order=${t.orderId}">
+              <i class="fa-solid fa-key"></i> Cek OTP
+            </a>
+          </td>
+        </tr>`).join("")
+    : `<tr>
+        <td colspan="4">
+          <div class="empty-state">
+            <i class="fa-solid fa-box-open"></i>
+            Tidak ada orderan aktif saat ini — <a href="/nokos" style="font-weight:800;color:var(--ink);text-decoration:underline">Beli Nokos Sekarang</a>
+          </div>
+        </td>
+      </tr>`;
+
+  const medalIcons = [
+    '<span class="rank-badge rank-1"><i class="fa-solid fa-trophy"></i> #1</span>',
+    '<span class="rank-badge rank-2"><i class="fa-solid fa-medal"></i> #2</span>',
+    '<span class="rank-badge rank-3"><i class="fa-solid fa-award"></i> #3</span>'
+  ];
+
+  if (S.success) {
+    lbBody.innerHTML = S.data.leaderboard.length
+      ? S.data.leaderboard.map((r, i) => `
+          <tr>
+            <td>${medalIcons[i] || '<span class="rank-badge">#' + (i + 1) + '</span>'}</td>
+            <td><b><i class="fa-solid fa-circle-user" style="margin-right:6px;opacity:0.75"></i>${r.nama}</b></td>
+            <td><span class="sticker g" style="padding:3px 10px;font-size:0.78rem">${r.total}x Order</span></td>
+          </tr>`).join("")
+      : `<tr><td colspan="3" class="empty-state">Belum ada data leaderboard.</td></tr>`;
+  }
 })();
 </script>
 </body>

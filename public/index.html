@@ -3,77 +3,1707 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>DikaOTP — Nokos Murah</title>
+<title>DikaOTP — Nokos Murah, Aman & Instan</title>
 <meta name="description" content="Website nokos murah, aman, dan terpercaya. Nomor OTP WhatsApp & 100+ layanan, proses instan, bayar QRIS.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@600;700;800&family=Nunito:wght@500;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 <link rel="stylesheet" href="/assets/style.css">
 <link rel="icon" href="/media/logo.jpg">
+<style>
+  :root {
+    --bg-main: #f7f5f0;
+    --ink: #101010;
+    --acc: #B7FF32;
+    --mint: #39E66B;
+    --card-light: #ffffff;
+    --muted-txt: #5c564f;
+    --sim-bg: #101010;
+    --sim-card: #181818;
+    --sim-border: #2a2a2a;
+    --sim-text: #f5f5f5;
+    --sim-muted: #9ca3af;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0;
+    font-family: 'Nunito', sans-serif;
+    background-color: var(--bg-main);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
+
+  .container, .page-wrap {
+    max-width: 1140px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .hl {
+    background: var(--acc);
+    padding: 0 8px;
+    border-radius: 8px;
+    border: 2px solid var(--ink);
+    display: inline-block;
+    line-height: 1.15;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 9px;
+    padding: 12px 22px;
+    border-radius: 14px;
+    border: 2.5px solid var(--ink);
+    background: #fff;
+    color: var(--ink);
+    font-weight: 800;
+    font-size: 0.96rem;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 4px 4px 0 var(--ink);
+    transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+  }
+
+  .btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 var(--ink);
+  }
+
+  .btn:active {
+    transform: translate(2px, 2px);
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+
+  .btn-yellow {
+    background: var(--acc);
+    color: var(--ink);
+  }
+
+  .btn-dark {
+    background: var(--ink);
+    color: var(--acc);
+    border-color: var(--acc);
+    box-shadow: 4px 4px 0 var(--acc);
+  }
+
+  .sticker {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    padding: 6px 14px;
+    border-radius: 999px;
+    border: 2px solid var(--ink);
+    background: #fff;
+    font-weight: 800;
+    font-size: 0.82rem;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+
+  .sticker.g {
+    background: var(--acc);
+  }
+
+  .sticker.b {
+    background: var(--mint);
+  }
+
+  .glass.card, .neo-card {
+    background: var(--card-light);
+    border: 2.5px solid var(--ink);
+    border-radius: 20px;
+    box-shadow: 6px 6px 0 var(--ink);
+  }
+
+  .hero-modern {
+    display: grid;
+    grid-template-columns: 1.08fr 0.92fr;
+    gap: 38px;
+    align-items: center;
+    padding: 46px 0 38px;
+  }
+
+  .brand-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 15px 6px 8px;
+    border-radius: 999px;
+    background: #fff;
+    border: 2px solid var(--ink);
+    font-weight: 800;
+    font-size: 0.85rem;
+    margin-bottom: 18px;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+
+  .brand-pill img {
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 1.5px solid var(--ink);
+  }
+
+  .hero-left h1 {
+    font-family: 'Baloo 2', cursive, sans-serif;
+    font-size: clamp(2.15rem, 4.3vw, 3.35rem);
+    line-height: 1.14;
+    margin: 0 0 16px;
+    letter-spacing: -0.5px;
+  }
+
+  .hero-left .lead {
+    font-size: 1.04rem;
+    line-height: 1.65;
+    margin-bottom: 24px;
+    color: var(--muted-txt);
+    font-weight: 600;
+  }
+
+  .hero-cta {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-bottom: 24px;
+  }
+
+  .hero-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .mini-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 0.84rem;
+    font-weight: 800;
+    padding: 7px 13px;
+    border-radius: 11px;
+    background: #fff;
+    border: 2px solid var(--ink);
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+
+  .mini-badge i {
+    color: #101010;
+    background: var(--acc);
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 0.75rem;
+    border: 1.5px solid var(--ink);
+  }
+
+  .sim-shell {
+    background: var(--sim-bg);
+    color: var(--sim-text);
+    border-radius: 22px;
+    border: 3px solid var(--ink);
+    box-shadow: 10px 10px 0 var(--ink);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .sim-topbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: #151515;
+    border-bottom: 1px solid var(--sim-border);
+  }
+
+  .sim-dots {
+    display: flex;
+    gap: 6px;
+  }
+
+  .sim-dots span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+  }
+
+  .sim-dots span:nth-child(1) { background: #ff5f56; }
+  .sim-dots span:nth-child(2) { background: #ffbd2e; }
+  .sim-dots span:nth-child(3) { background: #27c93f; }
+
+  .sim-title {
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    color: var(--acc);
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .live-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--mint);
+    box-shadow: 0 0 8px var(--mint);
+    animation: pulseGlow 1.4s infinite;
+  }
+
+  @keyframes pulseGlow {
+    0%, 100% { transform: scale(1); opacity: 1; }
+    50% { transform: scale(1.35); opacity: 0.55; }
+  }
+
+  .sim-stepper {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 4px;
+    padding: 12px 14px 10px;
+    background: #121212;
+    border-bottom: 1px solid var(--sim-border);
+  }
+
+  .st-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    font-size: 0.68rem;
+    font-weight: 700;
+    color: var(--sim-muted);
+    transition: all 0.3s ease;
+  }
+
+  .st-badge {
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: #222;
+    border: 1.5px solid #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.72rem;
+    transition: all 0.3s ease;
+  }
+
+  .st-item.active {
+    color: var(--acc);
+  }
+
+  .st-item.active .st-badge {
+    background: var(--acc);
+    color: #101010;
+    border-color: var(--acc);
+    box-shadow: 0 0 12px rgba(183, 255, 50, 0.45);
+    transform: scale(1.08);
+  }
+
+  .st-item.done {
+    color: var(--mint);
+  }
+
+  .st-item.done .st-badge {
+    background: rgba(57, 230, 107, 0.18);
+    color: var(--mint);
+    border-color: var(--mint);
+  }
+
+  .sim-body {
+    padding: 16px;
+    min-height: 325px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    position: relative;
+  }
+
+  .sim-cursor {
+    position: absolute;
+    width: 24px;
+    height: 24px;
+    pointer-events: none;
+    z-index: 25;
+    color: var(--acc);
+    font-size: 1.15rem;
+    transition: top 0.55s cubic-bezier(0.22, 1, 0.36, 1), left 0.55s cubic-bezier(0.22, 1, 0.36, 1), transform 0.18s ease;
+    filter: drop-shadow(0 3px 6px rgba(0,0,0,0.75));
+  }
+
+  .sim-cursor.clicking {
+    transform: scale(0.75);
+  }
+
+  .sim-stage-label {
+    font-size: 0.8rem;
+    font-weight: 800;
+    color: var(--sim-muted);
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .sim-stage-label span.step-status {
+    color: var(--acc);
+    font-size: 0.75rem;
+  }
+
+  .sim-options-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 8px;
+    margin-bottom: 12px;
+  }
+
+  .sim-row-card {
+    background: var(--sim-card);
+    border: 1.5px solid var(--sim-border);
+    border-radius: 12px;
+    padding: 10px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.28s ease;
+  }
+
+  .sim-row-card.selected {
+    border-color: var(--acc);
+    background: rgba(183, 255, 50, 0.08);
+    box-shadow: 0 0 0 1px rgba(183, 255, 50, 0.25);
+  }
+
+  .sim-row-left {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .sim-icon-box {
+    width: 36px;
+    height: 36px;
+    border-radius: 9px;
+    background: #242424;
+    color: var(--acc);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+  }
+
+  .sim-row-card.selected .sim-icon-box {
+    background: var(--acc);
+    color: #101010;
+  }
+
+  .sim-row-title {
+    font-weight: 800;
+    font-size: 0.88rem;
+    color: #fff;
+  }
+
+  .sim-row-sub {
+    font-size: 0.72rem;
+    color: var(--sim-muted);
+  }
+
+  .sim-pill {
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 99px;
+    background: #252525;
+    color: var(--sim-muted);
+    transition: all 0.25s ease;
+  }
+
+  .sim-row-card.selected .sim-pill {
+    background: var(--acc);
+    color: #101010;
+  }
+
+  .sim-otp-panel {
+    background: #141414;
+    border: 1.5px dashed #333;
+    border-radius: 14px;
+    padding: 12px 14px;
+    margin-top: 4px;
+    transition: all 0.3s ease;
+  }
+
+  .sim-otp-panel.ready {
+    border-style: solid;
+    border-color: var(--mint);
+    background: rgba(57, 230, 107, 0.08);
+  }
+
+  .sim-otp-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 0.75rem;
+    color: var(--sim-muted);
+    margin-bottom: 6px;
+  }
+
+  .sim-phone-num {
+    font-family: monospace;
+    font-size: 0.96rem;
+    font-weight: 800;
+    color: #fff;
+    letter-spacing: 0.5px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .sim-otp-code-box {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px solid #262626;
+  }
+
+  .otp-digits {
+    display: flex;
+    gap: 5px;
+  }
+
+  .otp-digit {
+    width: 26px;
+    height: 32px;
+    border-radius: 6px;
+    background: #222;
+    border: 1px solid #383838;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: monospace;
+    font-weight: 800;
+    font-size: 0.95rem;
+    color: var(--acc);
+    transition: all 0.2s ease;
+  }
+
+  .otp-digit.filled {
+    background: rgba(183, 255, 50, 0.16);
+    border-color: var(--acc);
+    transform: translateY(-2px);
+  }
+
+  .sim-action-btn {
+    width: 100%;
+    margin-top: 12px;
+    padding: 10px 14px;
+    border-radius: 11px;
+    border: none;
+    font-weight: 800;
+    font-size: 0.85rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    background: #262626;
+    color: #999;
+    transition: all 0.25s ease;
+  }
+
+  .sim-action-btn.active {
+    background: var(--acc);
+    color: #101010;
+    box-shadow: 0 4px 14px rgba(183, 255, 50, 0.3);
+  }
+
+  .sim-action-btn.success {
+    background: var(--mint);
+    color: #101010;
+    box-shadow: 0 4px 14px rgba(57, 230, 107, 0.35);
+  }
+
+  .sim-footer-ctrl {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 9px 16px;
+    background: #121212;
+    border-top: 1px solid var(--sim-border);
+    font-size: 0.72rem;
+    color: var(--sim-muted);
+  }
+
+  .sim-replay-btn {
+    background: transparent;
+    border: 1px solid #333;
+    color: var(--sim-text);
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 0.7rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+  }
+
+  .sim-replay-btn:hover {
+    border-color: var(--acc);
+    color: var(--acc);
+  }
+
+  .stats-strip {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    margin: 24px 0 54px;
+  }
+
+  .stat-box {
+    padding: 24px 20px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    transition: transform 0.2s ease;
+  }
+
+  .stat-box:hover {
+    transform: translateY(-3px);
+  }
+
+  .stat-icon {
+    width: 54px;
+    height: 54px;
+    border-radius: 16px;
+    background: var(--acc);
+    border: 2.5px solid var(--ink);
+    box-shadow: 3px 3px 0 var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.4rem;
+    color: var(--ink);
+    flex-shrink: 0;
+  }
+
+  .stat-box.s2 .stat-icon {
+    background: var(--mint);
+  }
+
+  .stat-box.s3 .stat-icon {
+    background: #101010;
+    color: var(--acc);
+  }
+
+  .stat-box .num {
+    font-family: 'Baloo 2', cursive;
+    font-size: 1.9rem;
+    font-weight: 800;
+    line-height: 1.1;
+  }
+
+  .stat-box .lbl {
+    font-size: 0.88rem;
+    font-weight: 700;
+    color: var(--muted-txt);
+  }
+
+  .section-block {
+    margin-bottom: 60px;
+  }
+
+  .sec-header-clean {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 24px;
+  }
+
+  .sec-header-clean h2 {
+    font-family: 'Baloo 2', cursive;
+    margin: 0;
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .catalog-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+  }
+
+  .cat-card {
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 14px;
+    transition: transform 0.2s ease;
+  }
+
+  .cat-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .cat-top {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .cat-logo {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    border: 2px solid var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.3rem;
+    background: var(--acc);
+    color: var(--ink);
+    box-shadow: 2px 2px 0 var(--ink);
+  }
+
+  .cat-title {
+    font-weight: 800;
+    font-size: 1rem;
+  }
+
+  .cat-sub {
+    font-size: 0.76rem;
+    color: var(--muted-txt);
+    font-weight: 700;
+  }
+
+  .cat-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-top: 12px;
+    border-top: 1.5px dashed #dcd6cd;
+  }
+
+  .cat-price {
+    font-weight: 800;
+    font-size: 0.95rem;
+    color: var(--ink);
+  }
+
+  .cat-stock {
+    font-size: 0.72rem;
+    font-weight: 800;
+    padding: 3px 9px;
+    border-radius: 99px;
+    background: rgba(57, 230, 107, 0.2);
+    border: 1.5px solid var(--ink);
+  }
+
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 18px;
+  }
+
+  .step-card {
+    padding: 22px 18px;
+    position: relative;
+  }
+
+  .step-num-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 11px;
+    border-radius: 99px;
+    background: var(--ink);
+    color: var(--acc);
+    font-weight: 800;
+    font-size: 0.76rem;
+    margin-bottom: 12px;
+  }
+
+  .step-card h3 {
+    margin: 0 0 8px;
+    font-size: 1.08rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .step-card p {
+    margin: 0;
+    font-size: 0.88rem;
+    line-height: 1.55;
+    color: var(--muted-txt);
+    font-weight: 600;
+  }
+
+  .feature-cards {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .feature-card {
+    padding: 24px 22px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .feature-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 13px;
+    background: var(--acc);
+    border: 2px solid var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+    box-shadow: 3px 3px 0 var(--ink);
+  }
+
+  .feature-card h3 {
+    margin: 6px 0 0;
+    font-size: 1.16rem;
+  }
+
+  .feature-card p {
+    margin: 0;
+    line-height: 1.58;
+    font-size: 0.92rem;
+    color: var(--muted-txt);
+    font-weight: 600;
+  }
+
+  .tbl-wrap {
+    padding: 10px 18px;
+    overflow-x: auto;
+  }
+
+  .tbl {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+  }
+
+  .tbl th, .tbl td {
+    padding: 13px 12px;
+    border-bottom: 1.5px solid #e6e0d6;
+    font-size: 0.94rem;
+  }
+
+  .tbl th {
+    font-weight: 800;
+    color: var(--muted-txt);
+    text-transform: uppercase;
+    font-size: 0.78rem;
+    letter-spacing: 0.5px;
+  }
+
+  .tbl tr:last-child td {
+    border-bottom: none;
+  }
+
+  .rank-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-weight: 800;
+    padding: 4px 10px;
+    border-radius: 8px;
+    border: 1.5px solid var(--ink);
+    background: #fff;
+  }
+
+  .rank-1 { background: #ffe066; }
+  .rank-2 { background: #e9ecef; }
+  .rank-3 { background: #ffc078; }
+
+  .review-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .rev-card {
+    padding: 22px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 14px;
+  }
+
+  .rev-stars {
+    color: #f59f00;
+    font-size: 0.9rem;
+    display: flex;
+    gap: 3px;
+  }
+
+  .rev-text {
+    font-size: 0.92rem;
+    line-height: 1.58;
+    color: var(--ink);
+    font-weight: 600;
+    margin: 0;
+  }
+
+  .rev-user {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-top: 10px;
+    border-top: 1.5px dashed #e2dcd3;
+  }
+
+  .rev-avatar {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--ink);
+    color: var(--acc);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 800;
+    font-size: 0.85rem;
+  }
+
+  .faq-list {
+    display: grid;
+    gap: 12px;
+  }
+
+  .faq-item {
+    overflow: hidden;
+  }
+
+  .faq-q {
+    width: 100%;
+    background: none;
+    border: none;
+    padding: 18px 22px;
+    text-align: left;
+    font-family: inherit;
+    font-size: 1rem;
+    font-weight: 800;
+    color: var(--ink);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 14px;
+  }
+
+  .faq-q i {
+    transition: transform 0.25s ease;
+  }
+
+  .faq-item.open .faq-q i {
+    transform: rotate(180deg);
+  }
+
+  .faq-a {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    padding: 0 22px;
+    color: var(--muted-txt);
+    font-size: 0.92rem;
+    line-height: 1.6;
+    font-weight: 600;
+  }
+
+  .faq-item.open .faq-a {
+    max-height: 220px;
+    padding-bottom: 18px;
+  }
+
+  .cta-banner {
+    text-align: center;
+    padding: 46px 26px;
+    border-radius: 24px;
+    background: var(--ink);
+    color: #fff;
+    border: 3px solid var(--ink);
+    box-shadow: 10px 10px 0 var(--acc);
+    margin-bottom: 64px;
+  }
+
+  .cta-banner h2 {
+    font-family: 'Baloo 2', cursive;
+    color: #fff;
+    margin: 0 0 10px;
+    font-size: clamp(1.6rem, 3.2vw, 2.25rem);
+  }
+
+  .cta-banner p {
+    margin: 0 auto 24px;
+    color: #c9c0b4;
+    max-width: 520px;
+    font-weight: 600;
+  }
+
+  .pay-strip {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 22px;
+  }
+
+  .pay-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: #1d1d1d;
+    border: 1px solid #333;
+    color: #e5e5e5;
+    font-size: 0.78rem;
+    font-weight: 700;
+  }
+
+  @media (max-width: 960px) {
+    .hero-modern {
+      grid-template-columns: 1fr;
+      padding: 28px 0 24px;
+    }
+    .hero-left {
+      text-align: center;
+    }
+    .hero-cta, .hero-badges {
+      justify-content: center;
+    }
+    .catalog-grid, .steps-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    .stats-strip, .feature-cards, .review-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 560px) {
+    .catalog-grid, .steps-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
 </head>
 <body>
 <div id="nav"></div>
 
-<header class="hero container">
-  <img class="brand-logo logo-big" src="/media/logo.jpg" alt="Logo">
-  <h1>Nokos <span class="hl">murah, aman</span> &amp; terpercaya<br>hanya di <span class="hl" data-cfg="nama">DikaOTP</span></h1>
-  <p class="lead" data-cfg="desk"></p>
-  <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
-    <a class="btn btn-yellow" href="/nokos">⚡ Buy Nokos Sekarang</a>
-    <a class="btn" href="/docs">📖 Cara Pakai</a>
-  </div>
-</header>
+<main class="page-wrap">
+  <header class="hero-modern">
+    <div class="hero-left">
+      <div class="brand-pill">
+        <img src="/media/logo.jpg" alt="Logo">
+        <span><i class="fa-solid fa-bolt" style="color:#101010"></i> Server OTP Otomatis 24/7 Nonstop</span>
+      </div>
+      <h1>Nokos <span class="hl">murah, aman</span> &amp; terpercaya di <span class="hl" data-cfg="nama">DikaOTP</span></h1>
+      <p class="lead" data-cfg="desk">Platform penyedia nomor virtual sementara untuk verifikasi OTP WhatsApp, Telegram, Google, TikTok, dan 100+ aplikasi lainnya. Deposit QRIS instan & garansi refund saldo otomatis.</p>
+      <div class="hero-cta">
+        <a class="btn btn-yellow" href="/nokos"><i class="fa-solid fa-bolt"></i> Beli Nokos Sekarang</a>
+        <a class="btn" href="/docs"><i class="fa-solid fa-book-open"></i> Panduan Lengkap</a>
+      </div>
+      <div class="hero-badges">
+        <div class="mini-badge">
+          <i class="fa-solid fa-tags"></i>
+          <span>Mulai <b data-cfg="minprice">5k</b>-an saja</span>
+        </div>
+        <div class="mini-badge">
+          <i class="fa-solid fa-qrcode"></i>
+          <span>Topup QRIS Otomatis</span>
+        </div>
+        <div class="mini-badge">
+          <i class="fa-solid fa-rotate-left"></i>
+          <span>Garansi 100% Refund</span>
+        </div>
+      </div>
+    </div>
 
-<section class="container">
-  <div class="grid grid-3">
-    <div class="glass stat"><div class="num" id="stUser">—</div><div class="lbl">Total User</div></div>
-    <div class="glass stat s2"><div class="num" id="stOrder">—</div><div class="lbl">Total Order</div></div>
-    <div class="glass stat s3"><div class="num" id="stOtp">—</div><div class="lbl">OTP Sukses</div></div>
-  </div>
-</section>
+    <div class="sim-shell" aria-label="Simulasi Order Nokos">
+      <div class="sim-topbar">
+        <div class="sim-dots"><span></span><span></span><span></span></div>
+        <div class="sim-title"><span class="live-dot"></span> <i class="fa-solid fa-terminal"></i> Live Order Simulator</div>
+        <div style="font-size:0.72rem;color:#888;font-weight:700"><i class="fa-solid fa-circle-play"></i> Auto</div>
+      </div>
 
-<section class="container" style="text-align:center;padding-top:10px">
-  <div class="sticker b">Mulai <span data-cfg="minprice">5k</span>-an aja 💸</div>
-  <p style="margin-top:14px;color:#6b6259;font-weight:700">Harga sudah termasuk layanan instan 24 jam. Saldo masuk otomatis setelah QRIS dibayar.</p>
-</section>
+      <div class="sim-stepper" id="simStepper">
+        <div class="st-item active" data-step="1">
+          <div class="st-badge">1</div>
+          <span>Negara</span>
+        </div>
+        <div class="st-item" data-step="2">
+          <div class="st-badge">2</div>
+          <span>Layanan</span>
+        </div>
+        <div class="st-item" data-step="3">
+          <div class="st-badge">3</div>
+          <span>Operator</span>
+        </div>
+        <div class="st-item" data-step="4">
+          <div class="st-badge">4</div>
+          <span>Order</span>
+        </div>
+        <div class="st-item" data-step="5">
+          <div class="st-badge">5</div>
+          <span>OTP</span>
+        </div>
+      </div>
 
-<section class="container">
-  <div class="sec-head"><h2>Kenapa <span data-cfg="nama">DikaOTP</span>?</h2><span class="sticker g">100% Auto</span></div>
-  <div class="grid grid-3">
-    <div class="glass card srv"><h3>⚡ Instan</h3><p>Nomor langsung aktif setelah checkout. OTP masuk dalam hitungan detik, pantau realtime.</p></div>
-    <div class="glass card srv"><h3>🛡️ Aman</h3><p>Saldo tersimpan rapi, pembatalan order otomatis refund ke saldo kamu. Tanpa drama.</p></div>
-    <div class="glass card srv"><h3>🌏 Lengkap</h3><p>20+ negara, 100+ layanan — WhatsApp, Telegram, dan lainnya. Harga transparan per server.</p></div>
-  </div>
-</section>
+      <div class="sim-body" id="simStage">
+        <div class="sim-cursor" id="simCursor" style="top:240px;left:260px">
+          <i class="fa-solid fa-arrow-pointer"></i>
+        </div>
 
-<section class="container">
-  <div class="sec-head"><h2>🏆 Leaderboard Order</h2><span class="sticker">Top Relawan OTP</span></div>
-  <div class="glass card tbl-wrap">
-    <table class="tbl"><thead><tr><th>#</th><th>Nama</th><th>Total Order</th></tr></thead>
-    <tbody id="lbBody"><tr><td colspan="3"><div class="skel"></div></td></tr></tbody></table>
-  </div>
-</section>
+        <div>
+          <div class="sim-stage-label">
+            <span id="simStepTitle">Langkah 1: Pilih Negara</span>
+            <span class="step-status" id="simStepBadge">Memilih...</span>
+          </div>
 
-<section class="container" style="padding-bottom:60px">
-  <div class="glass card" style="text-align:center;padding:40px 22px;background:var(--ink);color:#fff;box-shadow:8px 8px 0 var(--acc)">
-    <h2 style="color:#fff">Gas daftar & beli nokos pertama lu 🚀</h2>
-    <p style="margin:10px 0 20px;color:#c9c0b4">Gratis bikin akun, deposit mulai 1.000-an.</p>
-    <button class="btn btn-yellow" onclick="GA.openAuth()">Daftar Sekarang</button>
-  </div>
-</section>
+          <div class="sim-options-grid">
+            <div class="sim-row-card" id="cardCountry">
+              <div class="sim-row-left">
+                <div class="sim-icon-box"><i class="fa-solid fa-earth-asia"></i></div>
+                <div>
+                  <div class="sim-row-title" id="valCountry">Indonesia (+62)</div>
+                  <div class="sim-row-sub">Server Prioritas • Stok Ribuan</div>
+                </div>
+              </div>
+              <div class="sim-pill" id="pillCountry">Pilih</div>
+            </div>
+
+            <div class="sim-row-card" id="cardService">
+              <div class="sim-row-left">
+                <div class="sim-icon-box"><i class="fa-brands fa-whatsapp"></i></div>
+                <div>
+                  <div class="sim-row-title" id="valService">WhatsApp Messenger</div>
+                  <div class="sim-row-sub">Harga: Rp 5.200 • Instan OTP</div>
+                </div>
+              </div>
+              <div class="sim-pill" id="pillService">Menunggu</div>
+            </div>
+
+            <div class="sim-row-card" id="cardOperator">
+              <div class="sim-row-left">
+                <div class="sim-icon-box"><i class="fa-solid fa-tower-cell"></i></div>
+                <div>
+                  <div class="sim-row-title" id="valOperator">Telkomsel / Axis (Auto)</div>
+                  <div class="sim-row-sub">Sinyal Stabil • Fast Delivery</div>
+                </div>
+              </div>
+              <div class="sim-pill" id="pillOperator">Menunggu</div>
+            </div>
+          </div>
+
+          <div class="sim-otp-panel" id="otpPanel">
+            <div class="sim-otp-top">
+              <span><i class="fa-solid fa-sim-card"></i> Nomor Virtual Aktif:</span>
+              <span id="otpStatusText" style="color:#9ca3af;font-weight:700">Belum diorder</span>
+            </div>
+            <div class="sim-phone-num" id="simPhoneDisplay">
+              <i class="fa-solid fa-phone-volume" style="color:#B7FF32;font-size:0.85rem"></i>
+              <span>+62 8•• - •••• - ••••</span>
+            </div>
+            <div class="sim-otp-code-box">
+              <span style="font-size:0.75rem;color:#9ca3af;font-weight:700"><i class="fa-solid fa-key"></i> Kode OTP:</span>
+              <div class="otp-digits" id="otpDigitsBox">
+                <div class="otp-digit">-</div>
+                <div class="otp-digit">-</div>
+                <div class="otp-digit">-</div>
+                <div class="otp-digit">-</div>
+                <div class="otp-digit">-</div>
+                <div class="otp-digit">-</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="sim-action-btn" id="simOrderBtn">
+          <i class="fa-solid fa-cart-shopping" id="simBtnIcon"></i>
+          <span id="simBtnText">Menunggu Pilihan...</span>
+        </button>
+      </div>
+
+      <div class="sim-footer-ctrl">
+        <span><i class="fa-solid fa-circle-info"></i> Simulasi alur pembelian realtime</span>
+        <button type="button" class="sim-replay-btn" id="simReplayBtn">
+          <i class="fa-solid fa-rotate-right"></i> Ulangi
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <section class="stats-strip">
+    <div class="glass card stat stat-box">
+      <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
+      <div>
+        <div class="num" id="stUser">—</div>
+        <div class="lbl">Total Pengguna Terdaftar</div>
+      </div>
+    </div>
+    <div class="glass card stat s2 stat-box">
+      <div class="stat-icon"><i class="fa-solid fa-bag-shopping"></i></div>
+      <div>
+        <div class="num" id="stOrder">—</div>
+        <div class="lbl">Total Pesanan Nokos</div>
+      </div>
+    </div>
+    <div class="glass card stat s3 stat-box">
+      <div class="stat-icon"><i class="fa-solid fa-shield-check fa-check-double"></i></div>
+      <div>
+        <div class="num" id="stOtp">—</div>
+        <div class="lbl">OTP Berhasil Diterima</div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="sec-header-clean">
+      <h2><i class="fa-solid fa-fire"></i> Layanan Nokos Terpopuler</h2>
+      <span class="sticker b"><i class="fa-solid fa-server"></i> Stok Update Realtime</span>
+    </div>
+    <div class="catalog-grid">
+      <div class="glass card cat-card">
+        <div class="cat-top">
+          <div class="cat-logo"><i class="fa-brands fa-whatsapp"></i></div>
+          <div>
+            <div class="cat-title">WhatsApp</div>
+            <div class="cat-sub">Indonesia, Malaysia, US</div>
+          </div>
+        </div>
+        <div class="cat-bottom">
+          <span class="cat-price">Mulai Rp 5.200</span>
+          <span class="cat-stock"><i class="fa-solid fa-circle-check"></i> Ready</span>
+        </div>
+      </div>
+
+      <div class="glass card cat-card">
+        <div class="cat-top">
+          <div class="cat-logo"><i class="fa-brands fa-telegram"></i></div>
+          <div>
+            <div class="cat-title">Telegram</div>
+            <div class="cat-sub">All Country Server</div>
+          </div>
+        </div>
+        <div class="cat-bottom">
+          <span class="cat-price">Mulai Rp 4.800</span>
+          <span class="cat-stock"><i class="fa-solid fa-circle-check"></i> Ready</span>
+        </div>
+      </div>
+
+      <div class="glass card cat-card">
+        <div class="cat-top">
+          <div class="cat-logo"><i class="fa-brands fa-google"></i></div>
+          <div>
+            <div class="cat-title">Google / Gmail</div>
+            <div class="cat-sub">Fresh & High Trust</div>
+          </div>
+        </div>
+        <div class="cat-bottom">
+          <span class="cat-price">Mulai Rp 3.500</span>
+          <span class="cat-stock"><i class="fa-solid fa-circle-check"></i> Ready</span>
+        </div>
+      </div>
+
+      <div class="glass card cat-card">
+        <div class="cat-top">
+          <div class="cat-logo"><i class="fa-brands fa-tiktok"></i></div>
+          <div>
+            <div class="cat-title">TikTok</div>
+            <div class="cat-sub">Fast OTP Delivery</div>
+          </div>
+        </div>
+        <div class="cat-bottom">
+          <span class="cat-price">Mulai Rp 3.000</span>
+          <span class="cat-stock"><i class="fa-solid fa-circle-check"></i> Ready</span>
+        </div>
+      </div>
+
+      <div class="glass card cat-card">
+        <div class="cat-top">
+          <div class="cat-logo"><i class="fa-brands fa-instagram"></i></div>
+          <div>
+            <div class="cat-title">Instagram</div>
+            <div class="cat-sub">Meta Verification</div>
+          </div>
+        </div>
+        <div class="cat-bottom">
+          <span class="cat-price">Mulai Rp 3.200</span>
+          <span class="cat-stock"><i class="fa-solid fa-circle-check"></i> Ready</span>
+        </div>
+      </div>
+
+      <div class="glass card cat-card">
+        <div class="cat-top">
+          <div class="cat-logo"><i class="fa-brands fa-facebook-f"></i></div>
+          <div>
+            <div class="cat-title">Facebook</div>
+            <div class="cat-sub">Multi Operator</div>
+          </div>
+        </div>
+        <div class="cat-bottom">
+          <span class="cat-price">Mulai Rp 2.800</span>
+          <span class="cat-stock"><i class="fa-solid fa-circle-check"></i> Ready</span>
+        </div>
+      </div>
+
+      <div class="glass card cat-card">
+        <div class="cat-top">
+          <div class="cat-logo"><i class="fa-solid fa-bag-shopping"></i></div>
+          <div>
+            <div class="cat-title">Shopee & Tokopedia</div>
+            <div class="cat-sub">E-Commerce Indo</div>
+          </div>
+        </div>
+        <div class="cat-bottom">
+          <span class="cat-price">Mulai Rp 2.500</span>
+          <span class="cat-stock"><i class="fa-solid fa-circle-check"></i> Ready</span>
+        </div>
+      </div>
+
+      <div class="glass card cat-card">
+        <div class="cat-top">
+          <div class="cat-logo"><i class="fa-solid fa-layer-group"></i></div>
+          <div>
+            <div class="cat-title">100+ Aplikasi Lain</div>
+            <div class="cat-sub">Discord, Line, Gojek, dll</div>
+          </div>
+        </div>
+        <div class="cat-bottom">
+          <span class="cat-price">Cek Katalog</span>
+          <a href="/nokos" style="font-size:0.78rem;font-weight:800;color:var(--ink)"><i class="fa-solid fa-arrow-right"></i> Buka</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="sec-header-clean">
+      <h2><i class="fa-solid fa-route"></i> Cara Order Nokos Sangat Mudah</h2>
+      <span class="sticker g"><i class="fa-solid fa-clock"></i> Kurang dari 1 Menit</span>
+    </div>
+    <div class="steps-grid">
+      <div class="glass card step-card">
+        <div class="step-num-badge">LANGKAH 01</div>
+        <h3><i class="fa-solid fa-user-plus"></i> Buat Akun & Deposit</h3>
+        <p>Daftar akun gratis dalam hitungan detik, lalu isi saldo mulai Rp 1.000 via QRIS (DANA, OVO, GoPay, M-Banking) masuk otomatis.</p>
+      </div>
+      <div class="glass card step-card">
+        <div class="step-num-badge">LANGKAH 02</div>
+        <h3><i class="fa-solid fa-sliders"></i> Pilih Negara & Aplikasi</h3>
+        <p>Buka menu Nokos, pilih negara tujuan (misal Indonesia), pilih layanan aplikasi, serta operator seluler yang diinginkan.</p>
+      </div>
+      <div class="glass card step-card">
+        <div class="step-num-badge">LANGKAH 03</div>
+        <h3><i class="fa-solid fa-mobile-screen-button"></i> Gunakan Nomor Virtual</h3>
+        <p>Nomor langsung keluar di layar. Salin dan tempel nomor tersebut ke aplikasi yang ingin kamu verifikasi.</p>
+      </div>
+      <div class="glass card step-card">
+        <div class="step-num-badge">LANGKAH 04</div>
+        <h3><i class="fa-solid fa-envelope-open-text"></i> Terima Kode OTP</h3>
+        <p>Kode OTP akan muncul otomatis secara realtime. Jika OTP gagal masuk, klik batal dan saldo kembali 100% utuh.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="sec-header-clean">
+      <h2><i class="fa-solid fa-star"></i> Kenapa Pilih <span data-cfg="nama">DikaOTP</span>?</h2>
+      <span class="sticker g"><i class="fa-solid fa-robot"></i> 100% Sistem Otomatis</span>
+    </div>
+    <div class="feature-cards">
+      <div class="glass card srv feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-bolt-lightning"></i></div>
+        <h3>Pengiriman OTP Detikan</h3>
+        <p>Nomor langsung aktif setelah checkout dan terhubung ke gateway SMS berkecepatan tinggi. Pantau kode masuk secara live tanpa reload.</p>
+      </div>
+      <div class="glass card srv feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-shield-halved"></i></div>
+        <h3>Aman & Garansi Refund</h3>
+        <p>Saldo tidak akan terpotong sia-sia. Setiap pesanan nomor yang tidak menerima SMS OTP otomatis dikembalikan penuh ke saldo akunmu.</p>
+      </div>
+      <div class="glass card srv feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-globe"></i></div>
+        <h3>Lintas Negara & Operator</h3>
+        <p>Tersedia lebih dari 20 negara dan 100+ layanan aplikasi dengan opsi pemilihan operator spesifik maupun acak sesuai kebutuhanmu.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="sec-header-clean">
+      <h2><i class="fa-solid fa-trophy"></i> Leaderboard Sultan Order</h2>
+      <span class="sticker"><i class="fa-solid fa-crown"></i> Top Relawan OTP</span>
+    </div>
+    <div class="glass card tbl-wrap">
+      <table class="tbl">
+        <thead>
+          <tr>
+            <th><i class="fa-solid fa-hashtag"></i> Peringkat</th>
+            <th><i class="fa-solid fa-user"></i> Nama Pengguna</th>
+            <th><i class="fa-solid fa-chart-simple"></i> Total Order</th>
+          </tr>
+        </thead>
+        <tbody id="lbBody">
+          <tr><td colspan="3"><div class="skel">Memuat data leaderboard...</div></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="sec-header-clean">
+      <h2><i class="fa-solid fa-comments"></i> Kata Pengguna Kami</h2>
+      <span class="sticker b"><i class="fa-solid fa-heart"></i> Terbukti Amanah</span>
+    </div>
+    <div class="review-grid">
+      <div class="glass card rev-card">
+        <div>
+          <div class="rev-stars">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <p class="rev-text" style="margin-top:10px">"Beli nokos WA Indo di sini gampang banget, gak sampai 10 detik kode OTP langsung nongol. Mana harganya ramah di kantong pelajar."</p>
+        </div>
+        <div class="rev-user">
+          <div class="rev-avatar"><i class="fa-solid fa-user-check"></i></div>
+          <div>
+            <div style="font-weight:800;font-size:0.88rem">Rizky Pratama</div>
+            <div style="font-size:0.74rem;color:var(--muted-txt)">Reseller Sosmed</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass card rev-card">
+        <div>
+          <div class="rev-stars">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <p class="rev-text" style="margin-top:10px">"Enaknya ada fitur auto refund kalau OTP telat masuk, jadi saldo gak pernah hangus. Topup pakai QRIS DANA juga langsung masuk detik itu juga."</p>
+        </div>
+        <div class="rev-user">
+          <div class="rev-avatar"><i class="fa-solid fa-user-Astronaut fa-user-shield"></i></div>
+          <div>
+            <div style="font-weight:800;font-size:0.88rem">Dimas Saputra</div>
+            <div style="font-size:0.74rem;color:var(--muted-txt)">Pengguna Aktif</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="glass card rev-card">
+        <div>
+          <div class="rev-stars">
+            <i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i><i class="fa-solid fa-star"></i>
+          </div>
+          <p class="rev-text" style="margin-top:10px">"Pilihan negaranya lengkap, bisa pilih operator Telkomsel atau Axis sendiri. Buat verifikasi Telegram sama Gmail lancar jaya tanpa kendala."</p>
+        </div>
+        <div class="rev-user">
+          <div class="rev-avatar"><i class="fa-solid fa-user-gear"></i></div>
+          <div>
+            <div style="font-weight:800;font-size:0.88rem">Nanda Kurniawan</div>
+            <div style="font-size:0.74rem;color:var(--muted-txt)">Digital Marketer</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section-block">
+    <div class="sec-header-clean">
+      <h2><i class="fa-solid fa-circle-question"></i> Pertanyaan yang Sering Diajukan (FAQ)</h2>
+      <span class="sticker"><i class="fa-solid fa-life-ring"></i> Pusat Bantuan</span>
+    </div>
+    <div class="faq-list" id="faqList">
+      <div class="glass card faq-item open">
+        <button type="button" class="faq-q">
+          <span><i class="fa-solid fa-rotate-left" style="margin-right:8px"></i> Bagaimana jika kode OTP tidak masuk?</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+        <div class="faq-a">
+          Tenang saja! Jika dalam batas waktu tunggu kode OTP belum masuk, kamu cukup menekan tombol <b>Cancel / Batal</b> pada halaman order dan saldo akan kembali 100% secara otomatis ke akunmu.
+        </div>
+      </div>
+
+      <div class="glass card faq-item">
+        <button type="button" class="faq-q">
+          <span><i class="fa-solid fa-wallet" style="margin-right:8px"></i> Berapa minimal deposit dan mendukung pembayaran apa saja?</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+        <div class="faq-a">
+          Minimal deposit sangat terjangkau mulai dari Rp 1.000-an saja. Pembayaran menggunakan QRIS Otomatis yang mendukung DANA, OVO, GoPay, ShopeePay, LinkAja, dan seluruh Mobile Banking.
+        </div>
+      </div>
+
+      <div class="glass card faq-item">
+        <button type="button" class="faq-q">
+          <span><i class="fa-solid fa-sim-card" style="margin-right:8px"></i> Apakah nomor yang dibeli bersifat sekali pakai?</span>
+          <i class="fa-solid fa-chevron-down"></i>
+        </button>
+        <div class="faq-a">
+          Ya, nomor virtual (Nokos) dirancang khusus untuk menerima SMS verifikasi OTP pada satu sesi pemesanan demi menjaga keamanan dan privasi pengguna.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="cta-banner">
+    <h2>Gas Daftar &amp; Beli Nokos Pertama Lu Sekarang!</h2>
+    <p>Bikin akun gratis tanpa biaya bulanan. Deposit mulai Rp 1.000-an, proses otomatis 24 jam penuh.</p>
+    <div style="display:flex;gap:12px;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-yellow" onclick="GA.openAuth()"><i class="fa-solid fa-rocket"></i> Daftar Akun Sekarang</button>
+      <a class="btn" href="/nokos"><i class="fa-solid fa-list-check"></i> Cek Daftar Harga</a>
+    </div>
+    <div class="pay-strip">
+      <span class="pay-pill"><i class="fa-solid fa-qrcode" style="color:#B7FF32"></i> QRIS Instant</span>
+      <span class="pay-pill"><i class="fa-solid fa-wallet" style="color:#39E66B"></i> DANA / OVO / GoPay</span>
+      <span class="pay-pill"><i class="fa-solid fa-building-columns" style="color:#B7FF32"></i> Transfer Bank 24 Jam</span>
+      <span class="pay-pill"><i class="fa-solid fa-lock" style="color:#39E66B"></i> Transaksi Terenkripsi</span>
+    </div>
+  </section>
+</main>
 
 <div id="foot"></div>
+
 <script src="/assets/app.js"></script>
 <script>
+(function initFaqAccordion() {
+  const items = document.querySelectorAll("#faqList .faq-item");
+  items.forEach(item => {
+    const btn = item.querySelector(".faq-q");
+    btn.addEventListener("click", () => {
+      items.forEach(other => {
+        if (other !== item) other.classList.remove("open");
+      });
+      item.classList.toggle("open");
+    });
+  });
+})();
+
+(function initOrderSimulation() {
+  const stepItems = document.querySelectorAll("#simStepper .st-item");
+  const stepTitle = document.getElementById("simStepTitle");
+  const stepBadge = document.getElementById("simStepBadge");
+  const cursor = document.getElementById("simCursor");
+
+  const cardCountry = document.getElementById("cardCountry");
+  const cardService = document.getElementById("cardService");
+  const cardOperator = document.getElementById("cardOperator");
+
+  const pillCountry = document.getElementById("pillCountry");
+  const pillService = document.getElementById("pillService");
+  const pillOperator = document.getElementById("pillOperator");
+
+  const otpPanel = document.getElementById("otpPanel");
+  const otpStatusText = document.getElementById("otpStatusText");
+  const simPhoneDisplay = document.getElementById("simPhoneDisplay").querySelector("span");
+  const otpDigits = document.querySelectorAll("#otpDigitsBox .otp-digit");
+
+  const simOrderBtn = document.getElementById("simOrderBtn");
+  const simBtnIcon = document.getElementById("simBtnIcon");
+  const simBtnText = document.getElementById("simBtnText");
+  const simReplayBtn = document.getElementById("simReplayBtn");
+
+  let timers = [];
+
+  function queue(fn, delay) {
+    const t = setTimeout(fn, delay);
+    timers.push(t);
+  }
+
+  function clearQueue() {
+    timers.forEach(t => clearTimeout(t));
+    timers = [];
+  }
+
+  function updateStepper(activeStep) {
+    stepItems.forEach(item => {
+      const s = Number(item.getAttribute("data-step"));
+      item.classList.remove("active", "done");
+      if (s < activeStep) item.classList.add("done");
+      else if (s === activeStep) item.classList.add("active");
+    });
+  }
+
+  function moveCursorTo(el) {
+    const stageRect = document.getElementById("simStage").getBoundingClientRect();
+    const targetRect = el.getBoundingClientRect();
+    const top = targetRect.top - stageRect.top + targetRect.height * 0.55;
+    const left = targetRect.left - stageRect.left + targetRect.width * 0.75;
+    cursor.style.top = Math.max(12, top) + "px";
+    cursor.style.left = Math.max(12, left) + "px";
+  }
+
+  function clickEffect() {
+    cursor.classList.add("clicking");
+    setTimeout(() => cursor.classList.remove("clicking"), 200);
+  }
+
+  function resetSimulationState() {
+    clearQueue();
+    updateStepper(1);
+    stepTitle.textContent = "Langkah 1: Pilih Negara";
+    stepBadge.textContent = "Memilih negara...";
+
+    [cardCountry, cardService, cardOperator].forEach(c => c.classList.remove("selected"));
+    pillCountry.innerHTML = 'Pilih';
+    pillService.innerHTML = 'Menunggu';
+    pillOperator.innerHTML = 'Menunggu';
+
+    otpPanel.classList.remove("ready");
+    otpStatusText.textContent = "Belum diorder";
+    otpStatusText.style.color = "#9ca3af";
+    simPhoneDisplay.textContent = "+62 8•• - •••• - ••••";
+
+    otpDigits.forEach(d => {
+      d.textContent = "-";
+      d.classList.remove("filled");
+    });
+
+    simOrderBtn.className = "sim-action-btn";
+    simBtnIcon.className = "fa-solid fa-hourglass-half";
+    simBtnText.textContent = "Menunggu Pilihan Lengkap...";
+  }
+
+  function runTimeline() {
+    resetSimulationState();
+
+    queue(() => {
+      moveCursorTo(cardCountry);
+    }, 350);
+
+    queue(() => {
+      clickEffect();
+      cardCountry.classList.add("selected");
+      pillCountry.innerHTML = '<i class="fa-solid fa-check"></i> Indonesia';
+      stepBadge.textContent = "Negara dipilih!";
+    }, 950);
+
+    queue(() => {
+      updateStepper(2);
+      stepTitle.textContent = "Langkah 2: Pilih Layanan Aplikasi";
+      stepBadge.textContent = "Memilih layanan...";
+      moveCursorTo(cardService);
+    }, 1700);
+
+    queue(() => {
+      clickEffect();
+      cardService.classList.add("selected");
+      pillService.innerHTML = '<i class="fa-solid fa-check"></i> WhatsApp';
+      stepBadge.textContent = "Layanan dipilih!";
+    }, 2300);
+
+    queue(() => {
+      updateStepper(3);
+      stepTitle.textContent = "Langkah 3: Pilih Operator Seluler";
+      stepBadge.textContent = "Memilih operator...";
+      moveCursorTo(cardOperator);
+    }, 3050);
+
+    queue(() => {
+      clickEffect();
+      cardOperator.classList.add("selected");
+      pillOperator.innerHTML = '<i class="fa-solid fa-check"></i> Telkomsel';
+      stepBadge.textContent = "Siap diorder!";
+      simOrderBtn.classList.add("active");
+      simBtnIcon.className = "fa-solid fa-bolt";
+      simBtnText.textContent = "Beli Nomor Sekarang (Rp 5.200)";
+    }, 3650);
+
+    queue(() => {
+      updateStepper(4);
+      stepTitle.textContent = "Langkah 4: Checkout & Ambil Nomor";
+      stepBadge.textContent = "Klik tombol beli...";
+      moveCursorTo(simOrderBtn);
+    }, 4400);
+
+    queue(() => {
+      clickEffect();
+      simBtnIcon.className = "fa-solid fa-spinner fa-spin";
+      simBtnText.textContent = "Memproses Nomor Instan...";
+      otpStatusText.textContent = "Menunggu SMS OTP...";
+      otpStatusText.style.color = "#B7FF32";
+      simPhoneDisplay.textContent = "+62 812-9482-7310";
+    }, 5000);
+
+    queue(() => {
+      updateStepper(5);
+      stepTitle.textContent = "Langkah 5: Kode OTP Masuk!";
+      stepBadge.textContent = "SMS Diterima!";
+      otpPanel.classList.add("ready");
+      otpStatusText.textContent = "OTP Masuk (3 detik)";
+      otpStatusText.style.color = "#39E66B";
+
+      const sampleCode = ["8", "4", "9", "2", "0", "1"];
+      sampleCode.forEach((digit, idx) => {
+        queue(() => {
+          otpDigits[idx].textContent = digit;
+          otpDigits[idx].classList.add("filled");
+        }, idx * 140);
+      });
+    }, 6200);
+
+    queue(() => {
+      stepItems.forEach(item => {
+        item.classList.remove("active");
+        item.classList.add("done");
+      });
+      stepTitle.textContent = "Order Selesai & Berhasil!";
+      stepBadge.textContent = "100% Sukses";
+      simOrderBtn.classList.remove("active");
+      simOrderBtn.classList.add("success");
+      simBtnIcon.className = "fa-solid fa-circle-check";
+      simBtnText.textContent = "Verifikasi Berhasil — Order Selesai!";
+    }, 7400);
+
+    queue(() => {
+      runTimeline();
+    }, 11500);
+  }
+
+  simReplayBtn.addEventListener("click", runTimeline);
+  window.addEventListener("load", runTimeline);
+})();
+
 (async () => {
   await GA.loadConfig();
   document.getElementById("nav").innerHTML = GA.nav("home");
   document.getElementById("foot").innerHTML = GA.footer();
   const j = await GA.api("/api/stats");
   if (j.success) {
-    stUser.textContent = j.data.totalUser; stOrder.textContent = j.data.totalOrder; stOtp.textContent = j.data.otpSukses;
+    stUser.textContent = j.data.totalUser;
+    stOrder.textContent = j.data.totalOrder;
+    stOtp.textContent = j.data.otpSukses;
+    const medalIcons = [
+      '<span class="rank-badge rank-1"><i class="fa-solid fa-trophy"></i> #1</span>',
+      '<span class="rank-badge rank-2"><i class="fa-solid fa-medal"></i> #2</span>',
+      '<span class="rank-badge rank-3"><i class="fa-solid fa-award"></i> #3</span>'
+    ];
     lbBody.innerHTML = j.data.leaderboard.length
-      ? j.data.leaderboard.map((r, i) => `<tr><td>${["🥇","🥈","🥉"][i] || "#" + (i + 1)}</td><td>${r.nama}</td><td><b>${r.total}x</b></td></tr>`).join("")
-      : `<tr><td colspan="3">Belum ada order — jadi yang pertama!</td></tr>`;
+      ? j.data.leaderboard.map((r, i) => `<tr><td>${medalIcons[i] || '<span class="rank-badge">#' + (i + 1) + '</span>'}</td><td><b><i class="fa-solid fa-circle-user" style="margin-right:6px;opacity:0.7"></i>${r.nama}</b></td><td><span class="sticker g" style="padding:3px 10px;font-size:0.78rem">${r.total}x Order</span></td></tr>`).join("")
+      : `<tr><td colspan="3" style="text-align:center;padding:24px;font-weight:700"><i class="fa-solid fa-inbox" style="margin-right:6px"></i> Belum ada order — jadi yang pertama!</td></tr>`;
   }
 })();
 </script>
