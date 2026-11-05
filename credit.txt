@@ -1,36 +1,33 @@
-credit.txt — BYDIKAXDEV
-========================
+credit.txt — bydikaxdev
 
-Created & Developed By : Dika X Dev
-Role                   : Project Creator & Lead Developer
-Year                   : 2026
+created & developed by : dika x dev
+role                   : project creator & lead developer
+year                   : 2026
 
-----------------------------------------
-LISENSI & KETENTUAN
-----------------------------------------
-Script website ini GRATIS dan OPEN SOURCE (lisensi MIT).
-TIDAK DIJUAL BELIKAN. Kalau lu dibayar untuk script ini, lu kena tipu —
+lisensi & ketentuan
+-------------------
+script website ini gratis dan open source (lisensi mit).
+tidak dijual belikan. kalau lu dibayar untuk script ini, lu kena tipu —
 ambil gratis dari repository resmi.
 
-Lu bebas:
-- Pakai, modifikasi, dan deploy untuk keperluan pribadi maupun bisnis.
-- Modifikasi tema, config, dan fitur selama header credit tetap ada.
+lu bebas:
+- pakai, modifikasi, dan deploy untuk keperluan pribadi maupun bisnis.
+- modifikasi tema, config, dan fitur selama header credit tetap ada.
 
-Lu tidak boleh:
-- Menjual ulang script ini secara langsung.
-- Menghapus atau menyembunyikan credit developer.
+lu tidak boleh:
+- menjual ulang script ini secara langsung.
+- menghapus atau menyembunyikan credit developer.
 
-----------------------------------------
-TEKNOLOGI
-----------------------------------------
-- Backend  : Node.js + Express (proxy ke RuangOTP API)
-- Database : JSON flat-file (database/user.json, database/trx.json)
-- Frontend : Vanilla HTML/CSS/JS — neobrutalism x glassmorphism x smooth comic
-- Pembayaran: QRIS otomatis via provider API
-- Font     : Baloo 2 & Nunito (Google Fonts, SIL OFL)
+teknologi
+---------
+- backend   : node.js + express (proxy ke ruangotp api)
+- database  : json flat-file (database/user.json, database/trx.json)
+- frontend  : vanilla html/css/js — neobrutalism x glassmorphism x smooth comic
+- pembayaran: qris otomatis via provider api
+- font      : baloo 2 & nunito (google fonts, sil ofl)
+- ikon      : font awesome 6.5.2 (cdnjs, lisensi font awesome free)
 
-----------------------------------------
-KONTAK
-----------------------------------------
-GitHub: https://github.com/dikadev-hub
-Dibuat dengan 🧡 oleh Dika X Dev
+kontak
+------
+github: https://github.com/dikadev-hub
+dibuat dengan 💚 oleh dika x dev
