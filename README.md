@@ -1,6 +1,6 @@
 # bydikaxdev — nokos otp store
 
-> website nokos murah, aman, dan terpercaya. tema neobrutalism x glassmorphism x komik halus.
+> website nokos murah, aman, dan terpercaya.
 
 **created & developed by: dika x dev** · gratis & open source (mit) — *tidak dijual belikan*.
 
